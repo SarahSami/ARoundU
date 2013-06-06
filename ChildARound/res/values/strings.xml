@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Child</string>
+    <string name="app_name">Child</string>
+    <string name="start">Start</string>
+    <string name="guide">Guide Me!</string>
+    <string name="regIdTitle">Registration ID</string>
+    <string name="regIdSummary">Your device registration id from google</string>
+    <string name="sendPermissionLabel">Send Notification Permission</string>
+    <string name="receivePermissionLabel">Receive Notification Permission</string>
+    <string name="sendPermissionSummary">Permission to send intents to C2DMSample</string>
+    <string name="receivePermissionSummary">Permission to receive intents from C2DMSample</string>
+    
+    <style name="ButtonText">
+    <item name="android:layout_width">fill_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textColor">#0099FF</item>
+    <item name="android:gravity">center</item>
+    <item name="android:layout_margin">3dp</item>
+    <item name="android:textSize">16dp</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:shadowColor">#000000</item>
+    <item name="android:shadowDx">1</item>
+    <item name="android:shadowDy">1</item>
+    <item name="android:shadowRadius">2</item>
+    </style>
+
+</resources>
+

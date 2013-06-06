@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="app.child"
+    android:versionCode="1"
+    android:versionName="1.0" >
+<uses-sdk android:minSdkVersion="8"
+        android:targetSdkVersion="16" />
+
+<permission
+    android:name="app.child.permission.C2D_MESSAGE"
+    android:protectionLevel="signature" />
+	
+   <uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+	<uses-permission android:name="app.child.permission.C2D_MESSAGE" />
+	<uses-permission android:name="android.permission.BATTERY_STATS" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+		<permission android:name="app.child.SEND_NOTIFICATIONS"
+		android:label="@string/sendPermissionLabel"
+		android:description="@string/sendPermissionSummary"
+		android:permissionGroup="android.permission-group.PERSONAL_INFO"
+		android:protectionLevel="normal" />
+
+	<permission android:name="app.child.RECEIVE_NOTIFICATIONS"
+		android:label="@string/receivePermissionLabel"
+		android:description="@string/receivePermissionSummary"
+		android:permissionGroup="android.permission-group.PERSONAL_INFO"
+		android:protectionLevel="normal" />
+	
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+	<uses-permission android:name="app.child.SEND_NOTIFICATIONS" />
+	<uses-permission android:name="app.child.RECEIVE_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" > </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name = "android.intent.action.BATTERY_CHANGED"/>
+    <application android:icon="@drawable/pch" 
+        android:label="@string/app_name"
+		android:theme="@style/AppTheme" >
+
+    <activity
+            android:name="app.child.GuideView"
+            android:label="@string/app_name" >
+     
+        </activity>
+        
+        <activity
+            android:name="app.child.ChildActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <receiver
+		android:name="com.google.android.gcm.GCMBroadcastReceiver"
+		android:permission="com.google.android.c2dm.permission.SEND" >
+		<intent-filter>
+			<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+			<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+		<category android:name="app.child" />
+		</intent-filter>
+		</receiver>
+
+				<service android:name="app.child.GCMIntentService" />      
+                 <service android:name="app.child.RouteService"/>
+                 <service android:name="app.child.BatteryService"/>
+        
+    </application>
+
+</manifest>

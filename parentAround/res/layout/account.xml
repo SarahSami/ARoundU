@@ -1,0 +1,56 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/bgb1">
+    
+     <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Account" >
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="fill_parent"
+            android:layout_height="377dp"
+            android:layout_alignParentRight="true"
+            android:choiceMode="multipleChoiceModal"
+            android:divider="#b5b5b5"
+            android:dividerHeight="2dp"
+            android:listSelector="@drawable/list_selector" >
+
+        </ListView>
+
+         <Button
+             android:id="@+id/remove"
+             style="@style/ButtonText"
+             android:layout_width="130dp"
+             android:layout_height="50dp"
+             android:layout_below="@+id/listview"
+             android:layout_margin="26dp"
+             android:background="@drawable/button"
+             android:drawableLeft="@drawable/delete"
+             android:text="Remove" />
+
+         <Button
+             android:id="@+id/add"
+             style="@style/ButtonText"
+             android:layout_width="130dp"
+             android:layout_height="50dp"
+             android:layout_alignParentRight="true"
+             android:layout_below="@+id/listview"
+             android:layout_margin="26dp"
+             android:background="@drawable/button"
+             android:drawableRight="@drawable/user_add"
+             android:text="Add contact" />
+        
+  </RelativeLayout>
+
+</ScrollView>   
+
+</FrameLayout> 
