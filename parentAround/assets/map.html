@@ -61,14 +61,12 @@
 
  
 	 function addMarker(location) {
-		//markerC = markerB;		
 		markerB = new google.maps.Marker({
 		position: location,
 		draggable:true,		
 		map: map
 		
 	  });
-       //  markerC.setMap(null);
  	    google.maps.event.addListener(markerB, 'rightclick', function () {  markerB.setMap(null);});
 	 
 	}
