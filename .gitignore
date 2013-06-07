@@ -1,3 +1,6 @@
 # ignore .classpath files
 parentAround/.classpath
 parentAround/bin/
+
+ChildARound/.classpath
+ChildARound/bin/
