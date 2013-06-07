@@ -36,6 +36,7 @@ public class AccountMenu extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
+        
         ConnectivityManager cm = (ConnectivityManager) this.getSystemService(this.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni == null) {
@@ -55,18 +56,15 @@ public class AccountMenu extends Activity{
 						
 					}
 					start();
-					
 				}
-	        	
-	
 	        });
-	
 	       
 	        try {
 				loadData();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+	        
 	        Button button = (Button) findViewById(R.id.add);
 	        Button remove = (Button) findViewById(R.id.remove);
 	        remove.setOnClickListener(new Button.OnClickListener(){
@@ -92,13 +90,11 @@ public class AccountMenu extends Activity{
 						}
 		    	    	adapterCH.checks.clear();
 		    	    }
-		    	    
 		    	}
 	        });
 		    button.setOnClickListener(new Button.OnClickListener(){
 		    	public void onClick(View v) {
 		    		add();
-		    	
 		    	}
 		    });
         }
@@ -147,8 +143,6 @@ public class AccountMenu extends Activity{
         listView.setAdapter(adapter);
         
 	}
-
-
 	
 	private void start(){
 		Intent myIntent = new Intent(this, HomeActivity.class);
