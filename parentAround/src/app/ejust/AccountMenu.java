@@ -37,9 +37,7 @@ public class AccountMenu extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
         
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
+        if (!hasInternetConnection()) {
         	 showDialog();
         }else{
         	setContentView(R.layout.account);
@@ -99,7 +97,15 @@ public class AccountMenu extends Activity{
 		    });
         }
     }
-
+    
+    /**
+     * returns true if the device has internet connection
+     * */
+    private boolean hasInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni != null;
+    }
     
     private void showDialog() {
     	AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
@@ -160,7 +166,8 @@ public class AccountMenu extends Activity{
 		
 		// load data again to get any new updates
 		try {
-			loadData();
+			if(hasInternetConnection())
+				loadData();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
