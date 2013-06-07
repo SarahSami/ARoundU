@@ -51,7 +51,6 @@ public class AccountMenu extends Activity{
 						String k = (String)itr.next();
 						if((users[position]).compareTo(map.get(k) )== 0)
 							child = k;	
-						
 					}
 					start();
 				}
@@ -62,39 +61,6 @@ public class AccountMenu extends Activity{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-	        
-	        Button button = (Button) findViewById(R.id.add);
-	        Button remove = (Button) findViewById(R.id.remove);
-	        remove.setOnClickListener(new Button.OnClickListener(){
-		    	public void onClick(View v) {
-		    		if(users == null)
-		    			return;
-		    		if(listView.getAdapter() == adapterCH)
-		    			listView.setAdapter(adapter);
-		    		else{
-			    	    listView.setAdapter(adapterCH);
-			    	    
-		    		}
-		    		if(adapterCH.checks.size() > 0){
-		    	    	try {
-							saveToFile();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-		    	    	try {
-							loadData();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-		    	    	adapterCH.checks.clear();
-		    	    }
-		    	}
-	        });
-		    button.setOnClickListener(new Button.OnClickListener(){
-		    	public void onClick(View v) {
-		    		add();
-		    	}
-		    });
         }
     }
     
@@ -155,9 +121,29 @@ public class AccountMenu extends Activity{
 		startActivity(myIntent);
 	}
 	
-	private void add(){
+	public void addChild(View v){
 		Intent myIntent = new Intent(this, AddActivity.class);
 		startActivity(myIntent);
+	}
+	
+	public void removeChild(View v){
+		if(users == null)
+			return;
+		
+		if(listView.getAdapter() == adapterCH)
+			listView.setAdapter(adapter);
+		else
+			listView.setAdapter(adapterCH);
+
+		if(adapterCH.checks.size() > 0){
+	    	try {
+				saveToFile();
+				loadData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    	adapterCH.checks.clear();
+	    }
 	}
 	
 	@Override
