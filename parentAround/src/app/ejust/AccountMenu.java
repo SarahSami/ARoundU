@@ -36,9 +36,8 @@ public class AccountMenu extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
-        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(this.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        if (ni == null) {
+        
+        if (!hasInternetConnection()) {
         	 showDialog();
         }else{
         	setContentView(R.layout.account);
@@ -52,58 +51,27 @@ public class AccountMenu extends Activity{
 						String k = (String)itr.next();
 						if((users[position]).compareTo(map.get(k) )== 0)
 							child = k;	
-						
 					}
 					start();
-					
 				}
-	        	
-	
 	        });
-	
 	       
 	        try {
 				loadData();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-	        Button button = (Button) findViewById(R.id.add);
-	        Button remove = (Button) findViewById(R.id.remove);
-	        remove.setOnClickListener(new Button.OnClickListener(){
-		    	public void onClick(View v) {
-		    		if(users == null)
-		    			return;
-		    		if(listView.getAdapter() == adapterCH)
-		    			listView.setAdapter(adapter);
-		    		else{
-			    	    listView.setAdapter(adapterCH);
-			    	    
-		    		}
-		    		if(adapterCH.checks.size() > 0){
-		    	    	try {
-							saveToFile();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-		    	    	try {
-							loadData();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-		    	    	adapterCH.checks.clear();
-		    	    }
-		    	    
-		    	}
-	        });
-		    button.setOnClickListener(new Button.OnClickListener(){
-		    	public void onClick(View v) {
-		    		add();
-		    	
-		    	}
-		    });
         }
     }
-
+    
+    /**
+     * returns true if the device has internet connection
+     * */
+    private boolean hasInternetConnection(){
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        return ni != null;
+    }
     
     private void showDialog() {
     	AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
@@ -147,20 +115,49 @@ public class AccountMenu extends Activity{
         listView.setAdapter(adapter);
         
 	}
-
-
 	
 	private void start(){
 		Intent myIntent = new Intent(this, HomeActivity.class);
 		startActivity(myIntent);
 	}
 	
-	private void add(){
+	public void addChild(View v){
 		Intent myIntent = new Intent(this, AddActivity.class);
 		startActivity(myIntent);
 	}
 	
+	public void removeChild(View v){
+		if(users == null)
+			return;
+		
+		if(listView.getAdapter() == adapterCH)
+			listView.setAdapter(adapter);
+		else
+			listView.setAdapter(adapterCH);
 
+		if(adapterCH.checks.size() > 0){
+	    	try {
+				saveToFile();
+				loadData();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    	adapterCH.checks.clear();
+	    }
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// load data again to get any new updates
+		try {
+			if(hasInternetConnection())
+				loadData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void saveToFile() throws IOException{
 		FileOutputStream fos = openFileOutput("users", 0);

@@ -35,6 +35,7 @@
              android:layout_margin="26dp"
              android:background="@drawable/button"
              android:drawableLeft="@drawable/delete"
+             android:onClick="removeChild"
              android:text="Remove" />
 
          <Button
@@ -47,6 +48,7 @@
              android:layout_margin="26dp"
              android:background="@drawable/button"
              android:drawableRight="@drawable/user_add"
+             android:onClick="addChild"
              android:text="Add contact" />
         
   </RelativeLayout>

@@ -58,13 +58,7 @@ public class AddActivity extends Activity {
 				buffw.write("/");
 				buffw.close();
 			}
-			start();
+			finish();
 		}
 	}
-
-	private void start() {
-		Intent myIntent = new Intent(this, AccountMenu.class);
-		startActivity(myIntent);
-	}
-
 }
