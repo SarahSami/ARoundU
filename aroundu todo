@@ -4,6 +4,7 @@ static routes menu , way to home , to club ,to ..
 choosing different route rather than shortest 
 
 multi-parent system
+save last route by parent on child manifest and use latest route  ✔
 remove marker drag and drop  ✔
 refactor code
 usability issues , parent and child same apk,remove menu,.....

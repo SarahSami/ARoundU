@@ -63,6 +63,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     			  String [] params = message.split("&");
     			  String rid=params[0].substring(7);
     			  ChildActivity.server.parentId = rid;
+    			  Log.d("parent id",rid);
     			  ChildActivity.prefs.edit().putString("id",rid).commit();
     		  }
     		  else{

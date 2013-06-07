@@ -167,10 +167,8 @@ public class AccountMenu extends Activity{
     	OutputStreamWriter isw = new OutputStreamWriter ( fos ) ;
         BufferedWriter buffw = new BufferedWriter( isw ) ;
 		for(int i=0;i<users.length;i++){ 
-			Log.d("innn","in");
     		Iterator itr = map.keySet().iterator();
     		if(!adapterCH.checks.contains(i)){
-    			Log.d("add","add contact"+i);
 				while(itr.hasNext()){
 					String k = (String)itr.next();
 					String[] params;

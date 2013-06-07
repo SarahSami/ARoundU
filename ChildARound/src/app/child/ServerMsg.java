@@ -50,7 +50,7 @@ public class ServerMsg {
 	   
 	   public void gcmServer(String msg){
 		   try {
-
+			   //send to all parents if alert msg only
 			   parentId = ChildActivity.prefs.getString("id","");
 				Sender sender = new Sender(KEYID);
 				Message message = new Message.Builder()
