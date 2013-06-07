@@ -39,15 +39,21 @@ public  class MapActivity extends Activity  implements LocationListener{
     }
 
 
-    private void getLocation() {
-    	 LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-    	 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-	     Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-	     if(location != null){
-	    	 lattitude = location.getLatitude();
-	    	 longitude = location.getLongitude(); 
-	     }
-    	
+	private void getLocation() {
+		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+		
+		// get the location from network provider or from GPS
+		if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		}else{
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		}
+
+		Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		if(location != null){
+			lattitude = location.getLatitude();
+			longitude = location.getLongitude(); 
+		}
 	}
 
 
