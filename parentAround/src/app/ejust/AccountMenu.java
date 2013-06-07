@@ -160,7 +160,17 @@ public class AccountMenu extends Activity{
 		startActivity(myIntent);
 	}
 	
-
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		// load data again to get any new updates
+		try {
+			loadData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void saveToFile() throws IOException{
 		FileOutputStream fos = openFileOutput("users", 0);
