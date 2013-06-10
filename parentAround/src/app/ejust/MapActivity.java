@@ -10,20 +10,26 @@ import org.json.JSONObject;
 import app.ejust.R;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.EditText;
 
 public  class MapActivity extends Activity  implements LocationListener{
 	
 	public static WebView webview;
-	private double lattitude = 30.017177;
-	private double longitude = 31.412648;
+	private double lattitude = 31.214857;
+	private double longitude = 29.939804;
+	private String final_json = "";
 	public static LinkedList <String> routes = new LinkedList<String>();
 	
 	
@@ -32,6 +38,13 @@ public  class MapActivity extends Activity  implements LocationListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map);
+        Button button = (Button) findViewById(R.id.route);
+	    button.setOnClickListener(new Button.OnClickListener(){
+	    	public void onClick(View v) {
+	    		sendRoute();
+	    	
+	    	}
+	    });
         getLocation();
         setupWebView();
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -101,47 +114,66 @@ public  class MapActivity extends Activity  implements LocationListener{
 	}
 	
 
+	private void sendRoute(){
+		  JSONArray routeArray = null;
+			try {
+				 JSONObject ob = new JSONObject(final_json);
+			     routeArray = ob.getJSONArray("routes");
+			     String sent = "";
+			     String strt = "";
+			     boolean putStart = false;
+			     for(int i=0;i<routeArray.length();i++){
+				    	JSONObject route = routeArray.getJSONObject(i);
+				    	JSONArray legs = route.getJSONArray("legs");
+				    	JSONObject leg = legs.getJSONObject(0);
+				    	JSONArray steps = leg.getJSONArray("steps");
+				    	for(int j=0;j<steps.length();j++){
+				    		JSONObject step = steps.getJSONObject(j);
+				    		JSONObject start = step.getJSONObject("end_location");
+				    		if(!putStart){
+				    			JSONObject end = step.getJSONObject("start_location");
+				    			String ed = start.toString();
+				    			String k = ed.charAt(2)+""+ed.charAt(3);
+				    			String g = ed.charAt(ed.indexOf(",")+2)+""+ed.charAt(ed.indexOf(",")+3);
+				    			strt = end.getString(g)+","+end.getString(k)+"/";
+				    			putStart = true;
+				    		}
+				    		String st = start.toString();
+				    		String l = st.charAt(2)+""+st.charAt(3);
+				    		String g = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
+				    		sent+=start.getString(g)+","+start.getString(l)+"/";
+				    		Log.d("sent",strt+sent);
+				    		//if  
+				    		if(j % 15 == 0 || j == steps.length()-1 && sent.compareTo("")!=0){		    			
+				    	        HomeActivity.server.gcmServer(strt+sent);
+				    	        Log.d("in senddiiiin","sent to server"+sent);
+				    			sent = "";
+				    			strt = "";
+				    		}
+
+				    	}
+				    	
+				    }
+			     	finish();
+			    	Intent i = new Intent(this, HomeActivity.class);
+				    startActivity(i);
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+	}
 	
-	 public class JavaScriptInterface {
+	 public class JavaScriptInterface {	
 	        Context mContext;
 	 
 	        JavaScriptInterface(Context c) {
 	            mContext = c;
 	        }
 	  
- public void getRoute(String json) {
-	    JSONArray routeArray = null;
-	try {
-		 JSONObject ob = new JSONObject(json);
-	     routeArray = ob.getJSONArray("routes");
-	     String sent = "";
-	     for(int i=0;i<routeArray.length();i++){
-		    	JSONObject route = routeArray.getJSONObject(i);
-		    	JSONArray legs = route.getJSONArray("legs");
-		    	JSONObject leg = legs.getJSONObject(0);
-		    	JSONArray steps = leg.getJSONArray("steps");
-		    	for(int j=0;j<steps.length();j++){
-		    		JSONObject step = steps.getJSONObject(j);
-		    		JSONObject start = step.getJSONObject("start_location");
-		    		String st = start.toString();
-		    		String l = st.charAt(2)+""+st.charAt(3);
-		    		String g = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
-		    		sent+=start.getString(g)+","+start.getString(l)+"/";
-		    		if(j % 15 == 0 || j == steps.length()-1 && sent.compareTo("")!=0){		    			
-		    	        HomeActivity.server.gcmServer(sent);
-		    			sent = "";
-		    		}
-
-		    	}
-		    	
-		    }
-	     
-
-	} catch (JSONException e) {
-		e.printStackTrace();
-	}
-}
+	 public void getRoute(String json) {
+		 final_json = json;  
+	 	}
 	        
-	 }       
+	}       
     
 }

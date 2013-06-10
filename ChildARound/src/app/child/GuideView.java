@@ -3,6 +3,7 @@ package app.child;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -29,8 +30,14 @@ public class GuideView extends Activity{
 	    		  String []src = RouteService.points.get(0).split(",");
 	    		  String [] dst = RouteService.points.get(RouteService.points.size()-1).split(",");
 	    		  
+	    		  String pnts = RouteService.points.get(0);
+	    		  for(int i=1;i<RouteService.points.size();i++)
+	    			  pnts=pnts+","+RouteService.points.get(i);
+	    		  
 	    		  final String centerURL = "javascript:init("+RouteService.minLat+","+RouteService.minLng+"," 
-	    				  +RouteService.lat + "," +RouteService.lng+","+src[0]+","+src[1]+","+dst[0]+","+dst[1]+")";
+	    				  +RouteService.lat + "," +RouteService.lng+","+src[0]+","+
+	    				  src[1]+","+dst[0]+","+dst[1]+",'"+pnts+"')";
+	    		  Log.d("url",centerURL);
 	        	  webview = (WebView) findViewById(R.id.webview);
 	        	  WebSettings webSettings = webview.getSettings();
 	        	  webSettings.setJavaScriptEnabled(true);

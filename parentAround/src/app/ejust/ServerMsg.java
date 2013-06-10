@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
@@ -82,6 +83,8 @@ public class ServerMsg {
 				
 				 Result result = sender.send(message,childId,1);
 				Log.d("debug","result from send: "+result);
+				 
+						 
 				
 			} catch (Exception e) {
 				e.printStackTrace();

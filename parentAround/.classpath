@@ -4,5 +4,9 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="/Users/Sarah/soft /gcm-server.jar"/>
+	<classpathentry kind="lib" path="/Users/Sarah/soft /gcm/gcm-client/dist/gcm-src.jar"/>
+	<classpathentry kind="lib" path="/Users/Sarah/soft /gcm/gcm-client/dist/gcm.jar"/>
+	<classpathentry kind="lib" path="/Users/Sarah/soft /json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

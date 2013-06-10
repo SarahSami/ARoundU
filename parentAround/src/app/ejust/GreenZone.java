@@ -25,6 +25,7 @@ public class GreenZone extends Activity{
     }
 
     private void map(){
+    	finish();
     	Intent i = new Intent(this, MapActivity.class);
 	    startActivity(i);
     }

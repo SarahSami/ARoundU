@@ -39,8 +39,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onMessage(Context context, Intent arg1) {
 		String message = arg1.getStringExtra("data");
-		
-		Log.d("message in child ",message);
+		if(ChildActivity.prefs == null)
+			ChildActivity.prefs = getSharedPreferences(ChildActivity.preferences,MODE_APPEND);
+
+		Log.d("message in child >>",message);
         if(message.equals("getLocation"))
 		{
         	
@@ -52,6 +54,8 @@ public class GCMIntentService extends GCMBaseIntentService {
     		  if(message.contains("greenz")){
     			  if(message.compareTo("greenz") != 0)
     				  RouteService.greenZone=Integer.parseInt(message.substring(6));
+    			  RouteService.points.clear();
+    			  ChildActivity.prefs.edit().putString("route","").commit();
     		  }
     		  else if(message.contains(" ")){
     			  String[] sp = message.split(" ");
@@ -67,6 +71,8 @@ public class GCMIntentService extends GCMBaseIntentService {
     			  ChildActivity.prefs.edit().putString("id",rid).commit();
     		  }
     		  else{
+    			  if(!ChildActivity.prefs.contains("route"))
+    				  ChildActivity.prefs.edit().putString("route","").commit();
     			  String rt = ChildActivity.prefs.getString("route","");
     			  ChildActivity.prefs.edit().putString("route",rt+"/"+message).commit();
     		  }

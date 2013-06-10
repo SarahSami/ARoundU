@@ -19,22 +19,26 @@
 		var markerC = null;
 		var markerD = null;
        function initialize() {
-		     init();
+       //init(30.0227316,31.41239930000006,0.0,0.0,30.0274369,31.421475699999974,30.0227316,31.41239930000006,'30.0274369,31.421475699999974,30.0271941,31.41954320000002,30.0277875,31.41908209999997,30.0260985,31.415723800000023,30.0247462,31.41630150000003,30.02467529999999,31.415027099999975,30.0224769,31.414658299999928,30.0227316,31.41239930000006')
+       
+       	init();
          }
          
-         function init(minlat,minlng,clat,clng,slat,slng,dlat,dlng){ 
+         function init(minlat,minlng,clat,clng,slat,slng,dlat,dlng,points){ 
+         
+         	
 			var src = new google.maps.LatLng(slat,slng);
 			var dst = new google.maps.LatLng(dlat,dlng);
 			var cur = new google.maps.LatLng(clat,clng);
 			var min = new google.maps.LatLng(minlat,minlng);
 			
 			var myOptions = {
-			  zoom:10,
+			  zoom:15,
 			  mapTypeId: google.maps.MapTypeId.ROADMAP,
 			  provideRouteAlternatives:true,
 			  disableDoubleClickZoom:true,
 			  enableScrollWheelZoom:true,
-			  center: cur
+			  center: min
 			}
 			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 			 markerA = new google.maps.Marker({
@@ -61,11 +65,41 @@
 				map:map
 		     });
 		     
-			calcRoute();
+		     var route = [];
+			var pth = [];
+		    route = points.split(',');
+				for(i=0;i<route.length-1;i++){
+					if(i%2 == 0)
+						pth.push(new google.maps.LatLng(route[i],route[i+1]));
+				}
+				
+				var polyline = new google.maps.Polyline({path:pth , strokeColor: '#33FF66',strokeWeight : 5 });
+			    polyline.setMap(map);
+			    
+			//calcRoute(points);
 			}
  
 
-		  function calcRoute() {
+		  function calcRoute(points) {
+			  var waypts = [];
+			  var route = [];
+		 	  route = points.split(',');
+		 	  var step = Math.floor((route.length/2)/8);
+			  for (var i = 0; i < 7; i=i+step) 
+			    {
+			     if(i < route.length){
+			     if(i%2 == 0 && waypts.length != 8){
+			       waypts.push({
+			                location: new google.maps.LatLng(route[i], route[i+1]),
+			                stopover: true
+			            });
+			            }
+			      }
+			    }
+			waypts.push({
+			                location: new google.maps.LatLng(route[route.length-2], route[route.length-1]),
+			                stopover: true
+			            });
 		  	var polylineOptionsActual = { strokeColor: '#33FF66' };
             var directionsDisplay = new google.maps.DirectionsRenderer({
                 suppressMarkers: true,
@@ -77,7 +111,8 @@
 		  var request = {
 			origin:markerA.getPosition(),
 			destination:markerB.getPosition(),
-			provideRouteAlternatives: true,
+			waypoints: waypts,
+			optimizeWaypoints: true,
 			travelMode: google.maps.TravelMode.WALKING
 		  };	
 		  directionsService.route(request, function(result, status) {
