@@ -1,0 +1,88 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:padding="5dp" 
+        android:background="@android:color/darker_gray">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Bedo"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp" >
+
+            <ImageView
+                android:id="@+id/childIcon"
+                android:layout_width="212dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_launcher" />
+
+            <LinearLayout
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <ToggleButton
+                    android:id="@+id/activationToggleButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/childCallButton"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Call" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/lastUpdateTimestamp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Bedo was here from 20 minutes ago!"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <WebView
+            android:id="@+id/childCurrentMapLocation"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_weight="6.80" />
+
+        <Button
+            android:id="@+id/addNewRouteButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:onClick="addNewRoute"
+            android:text="Add new route" />
+
+        <ListView
+            android:id="@+id/routesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+    </LinearLayout>
+
+</ScrollView>
