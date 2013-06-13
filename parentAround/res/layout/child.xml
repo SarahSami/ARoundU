@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView1"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
     <LinearLayout
@@ -77,11 +77,12 @@
             android:onClick="addNewRoute"
             android:text="Add new route" />
 
-        <ListView
-            android:id="@+id/routesList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-        </ListView>
+		<LinearLayout
+		    android:orientation="vertical"
+		    android:id="@+id/routesList"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content" >
+		</LinearLayout>
 
     </LinearLayout>
 

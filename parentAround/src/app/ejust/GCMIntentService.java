@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -110,6 +111,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onError(Context arg0, String errorId) {
+		Toast.makeText(this, "ERROR", Toast.LENGTH_LONG).show();
 		Log.i(TAG, "Received error: " + errorId);
 	}
 

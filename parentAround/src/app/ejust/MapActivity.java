@@ -127,9 +127,11 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    	JSONArray legs = route.getJSONArray("legs");
 				    	JSONObject leg = legs.getJSONObject(0);
 				    	JSONArray steps = leg.getJSONArray("steps");
+				    	
 				    	for(int j=0;j<steps.length();j++){
 				    		JSONObject step = steps.getJSONObject(j);
 				    		JSONObject start = step.getJSONObject("end_location");
+
 				    		if(!putStart){
 				    			JSONObject end = step.getJSONObject("start_location");
 				    			String ed = start.toString();
@@ -138,18 +140,23 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    			strt = end.getString(g)+","+end.getString(k)+"/";
 				    			putStart = true;
 				    		}
+				    		
 				    		String st = start.toString();
-				    		String l = st.charAt(2)+""+st.charAt(3);
-				    		String g = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
-				    		sent+=start.getString(g)+","+start.getString(l)+"/";
+				    		
+				    		String lng = st.charAt(2)+""+st.charAt(3);
+				    		String lat = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
+				    		
+				    		
+				    		sent+=start.getString(lat)+","+start.getString(lng)+"/";
+				    		
 				    		Log.d("sent",strt+sent);
-				    		//if  
-				    		if(j % 15 == 0 || j == steps.length()-1 && sent.compareTo("")!=0){		    			
-				    	        HomeActivity.server.gcmServer(strt+sent);
-				    	        Log.d("in senddiiiin","sent to server"+sent);
-				    			sent = "";
-				    			strt = "";
-				    		}
+				    		
+//				    		if(j % 15 == 0 || j == steps.length()-1 && sent.compareTo("")!=0){		    			
+////				    	        HomeActivity.server.gcmServer(strt+sent);
+//				    	        Log.d("in senddiiiin","sent to server"+sent);
+//				    			sent = "";
+//				    			strt = "";
+//				    		}
 
 				    	}
 				    	
