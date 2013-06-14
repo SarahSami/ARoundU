@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <TextView
+        android:id="@+id/routeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Way to the club"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <WebView
+        android:id="@+id/routeSteps"
+        android:layout_width="match_parent"
+        android:layout_height="234dp" />
+
+    <LinearLayout
+        android:id="@+id/routeActions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/routeDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="deleteRoute"
+            android:text="Delete" />
+
+        <Button
+            android:id="@+id/routeEditeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="editRoute"
+            android:text="Edit" />
+
+        <Button
+            android:id="@+id/routeSendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="sendRoute"
+            android:text="Send" />
+    </LinearLayout>
+
+    <View style="@style/Divider" />
+
+</LinearLayout>
