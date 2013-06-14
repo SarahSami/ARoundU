@@ -4,10 +4,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +39,6 @@ public class RoutesListAdapter extends ArrayAdapter<Child.Route> {
 		// getting access to route views
 		TextView routeName = (TextView) listItem.findViewById(R.id.routeName);
 		WebView routeSteps = (WebView) listItem.findViewById(R.id.routeSteps);
-		
 		// setting route actions (send, edit and delete) and routeSteps viewer to be invisible
 		// it will be displayed only when user hits the name of the route
 		listItem.findViewById(R.id.routeActions).setVisibility(View.GONE);
@@ -48,4 +50,5 @@ public class RoutesListAdapter extends ArrayAdapter<Child.Route> {
 		Log.d("ROUTE", ""+position+":"+route.name);
 		return listItem;
 	}
+
 }

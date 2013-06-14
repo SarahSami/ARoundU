@@ -16,6 +16,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import app.ejust.ui.AccountMenu;
+import app.ejust.ui.GreenZone;
+import app.ejust.ui.LocationView;
 
 
 public class HomeActivity extends Activity {

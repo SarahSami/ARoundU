@@ -29,6 +29,10 @@ public class Child implements Serializable{
 		public Vector<Pair<Double, Double>> steps;
 		public String name;
 		public int greenZone;
+//		public double startLat;
+//		public double endLat;
+//		public double startLng;
+//		public double endLng;
 		
 		public Route(Vector<Pair<Double, Double>> steps, String name) {
 			this.steps = steps;

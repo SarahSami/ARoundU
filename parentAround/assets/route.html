@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+ 
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 90% }
+    </style>
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBKsdOqE9YzPKJDKTSECMsw1GCgRMbUKts&sensor=false">
+    </script>
+    <script type="text/javascript">
+
+		var directionsDisplay;
+		var directionsService = new google.maps.DirectionsService();	
+		var map = null;
+       function initialize() {
+		  //  init(31.214306,29.945587,31.217288,29.94637);
+			ini();
+         }
+         
+         function init(slat,slng,elat,elng){ 
+            directionsDisplay = new google.maps.DirectionsRenderer();
+			var alex = new google.maps.LatLng(slat,slng);
+			var myOptions = {
+			  zoom:15,
+			  mapTypeId: google.maps.MapTypeId.ROADMAP,
+			  provideRouteAlternatives:true,
+			  disableDoubleClickZoom:true,
+			  enableScrollWheelZoom:true,
+			  center: alex
+			}
+			map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  			calcRoute(slat,slng,elat,elng);
+			directionsDisplay.setMap(map);
+			}
+
+		  function calcRoute(slat,slng,elat,elng) {
+		  
+		  var request = {
+			origin: new google.maps.LatLng(slat,slng),
+			destination: new google.maps.LatLng(elat,elng),
+			provideRouteAlternatives: true,
+			travelMode: google.maps.TravelMode.WALKING
+		  };	
+		  directionsService.route(request, function(result, status) {
+			if (status == google.maps.DirectionsStatus.OK) { 
+			      directionsDisplay.setDirections(result);//draw routes
+			}
+		  });
+ 
+}
+    </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+ 
+  </body>
+</html>

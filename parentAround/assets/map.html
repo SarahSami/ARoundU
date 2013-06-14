@@ -21,7 +21,7 @@
 		var markerA = null;
 		var markerB = null;
 		var markerC = null;
-		var click = false;
+		var click = 0;
 		var routes = new Array();
 		var my_result;
        function initialize() {
@@ -48,17 +48,18 @@
   			
   			
 		   google.maps.event.addListener(map, 'click', function(event) {
-		   if(click == false)
+		   if(click == 0)
 		   {
 		   	 markerA = new google.maps.Marker({
 			    position: event.latLng,
 				draggable:true,
 				map:map
 		     });
-		     click = true;
-		   }else{
+		     click = 1;
+		   }else if(click == 1) {
 				addMarker(event.latLng);
 			    calcRoute();
+			    click = 2;
 			}
 			});
 			directionsDisplay.setMap(map);

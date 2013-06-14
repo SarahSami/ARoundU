@@ -15,58 +15,53 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-
 public class ServerMsg {
-	
-	public static String parentId = "";
-	private  String KEYID="AIzaSyCGiT9NZqikYmkhVWhnX8RGjFwGx7dkKbA";
-	
-	public ServerMsg(Context cnt ){
+
+	private String KEYID = "AIzaSyCGiT9NZqikYmkhVWhnX8RGjFwGx7dkKbA";
+	private String parentIds = "";
+
+	public ServerMsg(Context cnt) {
 	}
-	
-	   
-  
-	   public void postMsg(final String msg){
-		   new Thread(new Runnable(){
 
-				@Override
-				public void run() {
-		   try {
-		       HttpClient client = new DefaultHttpClient();  
-		       String postURL = "http://androidc2dm.herokuapp.com/"+msg;
-		       HttpGet post = new HttpGet(postURL); 
-		       HttpResponse responsePOST = client.execute(post);  
-		       HttpEntity resEntity = responsePOST.getEntity();  
-		       if (resEntity != null) {    
-		               Log.i("RESPONSE",EntityUtils.toString(resEntity));
-		           }
-		   } catch (Exception e) {
-		       e.printStackTrace();
-		   }
+	public void postMsg(final String msg) {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					HttpClient client = new DefaultHttpClient();
+					String postURL = "http://androidc2dm.herokuapp.com/" + msg;
+					HttpGet post = new HttpGet(postURL);
+					HttpResponse responsePOST = client.execute(post);
+					HttpEntity resEntity = responsePOST.getEntity();
+					if (resEntity != null) {
+						Log.i("RESPONSE", EntityUtils.toString(resEntity));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-		   }).start();
-	   }
-	   
-	   
-	   public void gcmServer(String msg){
-		   try {
-			   //send to all parents if alert msg only
-			   parentId = ChildActivity.prefs.getString("id","");
-				Sender sender = new Sender(KEYID);
-				Message message = new Message.Builder()
-						.collapseKey("1")
-						.timeToLive(3)
-						.delayWhileIdle(true)
-						.addData("data",msg)
-						.build();
-				
-				 Result result = sender.send(message,parentId,1);
-				Log.d("debug","result from send: "+result);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
+		}).start();
+	}
 
-	   }
+	public void gcmServer(String msg) {
+		try {
+			// send to all parents if alert msg only
+			parentIds = ChildActivity.prefs.getString("id", "");
+			String[] ids = parentIds.split("/");
+			Sender sender = new Sender(KEYID);
+			Message message = new Message.Builder().collapseKey("1")
+					.timeToLive(3).delayWhileIdle(true).addData("data", msg)
+					.build();
+			for (int i = 0; i < ids.length; i++) {
+				Log.d("id", ids[i]);
+				Result result = sender.send(message, ids[i], 1);
+				Log.d("debug", "result from send: " + result);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }

@@ -3,9 +3,13 @@ package app.child;
 import static app.child.CommonUtilities.SENDER_ID;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -66,11 +70,16 @@ public class GCMIntentService extends GCMBaseIntentService {
     		  else if(message.contains("parent=")){
     			  String [] params = message.split("&");
     			  String rid=params[0].substring(7);
-    			  ChildActivity.server.parentId = rid;
+    			  //ChildActivity.server.parentId = rid;
     			  Log.d("parent id",rid);
-    			  ChildActivity.prefs.edit().putString("id",rid).commit();
+    			  if(!ChildActivity.prefs.contains("id"))
+    				  ChildActivity.prefs.edit().putString("id","").commit();
+    			  
+    			  String rt = ChildActivity.prefs.getString("id","");
+    			  ChildActivity.prefs.edit().putString("id",rt+"/"+rid).commit();
     		  }
     		  else{
+    			  notification(context);
     			  if(!ChildActivity.prefs.contains("route"))
     				  ChildActivity.prefs.edit().putString("route","").commit();
     			  String rt = ChildActivity.prefs.getString("route","");
@@ -89,5 +98,25 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected boolean onRecoverableError(Context context, String errorId) {
 		return super.onRecoverableError(context, errorId);
+	}
+	
+	
+	public void notification(Context cntx){
+		String msg =  "New route received from parent.";
+		String svcName = Context.NOTIFICATION_SERVICE;
+        NotificationManager notificationManager;
+        notificationManager = (NotificationManager)cntx.getSystemService(svcName);        
+        int icon = R.drawable.pch;
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(icon,msg, when);
+        notification.contentView = new RemoteViews(cntx.getPackageName(), R.layout.notification);
+		notification.flags |= Notification.FLAG_AUTO_CANCEL; 
+		notification.defaults = Notification.DEFAULT_SOUND;
+		Intent intnt = new Intent(cntx, GCMIntentService.class);
+        PendingIntent launchIntent = PendingIntent.getActivity(cntx.getApplicationContext(), 0, intnt, 0);
+        notification.contentIntent = launchIntent;
+        notification.contentView.setTextViewText(R.id.status_text,msg);
+        int notificationRef = 1;
+        notificationManager.notify(notificationRef, notification);
 	}
 }

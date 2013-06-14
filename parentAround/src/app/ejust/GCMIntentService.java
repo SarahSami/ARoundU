@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
+import app.ejust.ui.AccountMenu;
 
 import com.google.android.gcm.GCMBaseIntentService;
 

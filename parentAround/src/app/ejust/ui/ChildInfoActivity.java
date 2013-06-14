@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -17,9 +18,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import app.ejust.MapActivity;
 import app.ejust.R;
 import app.ejust.model.Child;
+import app.ejust.model.Child.Route;
 
 public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	
@@ -91,7 +92,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 //		routeSteps.setVisibility(View.VISIBLE);
 	}
 	
-	private View buildRouteView(Child.Route route) {
+	private View buildRouteView(final Child.Route route) {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
 		LinearLayout routeView = (LinearLayout) inflater.inflate(R.layout.route_list_item, null);
@@ -119,6 +120,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 					routeActions.setVisibility(View.GONE);
 					routeSteps.setVisibility(View.GONE);
 				}else{
+					showMap(route,routeSteps);
 					routeActions.setVisibility(View.VISIBLE);
 					routeSteps.setVisibility(View.VISIBLE);
 					new Handler().post(new Runnable() {
@@ -132,5 +134,28 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		});
 		
 		return routeView;
+	}
+	
+	
+	
+
+	private void showMap(Route route, final WebView webview) {
+		Pair<Double, Double> start = route.steps.get(0);
+		Pair<Double, Double> end = route.steps.get(route.steps.size()-1);
+		final String centerURL = "javascript:init(" +start.first + "," +start.second+ ","+
+													end.first+","+end.second+")";
+		webview.getSettings().setJavaScriptEnabled(true);
+		WebSettings webSettings = webview.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+	  	  
+		webview.setWebViewClient(new WebViewClient(){
+			@Override
+			public void onPageFinished(WebView view, String url){
+				webview.loadUrl(centerURL);
+				}
+			}
+		);
+		webview.loadUrl("file:///android_asset/route.html");
+		
 	}
 }
