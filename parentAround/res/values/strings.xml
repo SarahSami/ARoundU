@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, HomeActivity!</string>
-    <string name="app_name">Parent</string>
+    <string name="app_name">AroundU</string>
     <string name="TextView">TextView</string>
     <string name="buttonLocText">Where</string>
     <string name="regIdTitle">Registration ID</string>
