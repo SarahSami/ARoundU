@@ -149,8 +149,9 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 				//TODO :: put in on-off list
 	            if(toggle.isChecked()){
 	            	AccountMenu.server.gcmServer("parent="+AccountMenu.prefs.getString("id",""));
+	            	// AccountMenu.onlineChilds.add(object);
 	            }else{
-	            	
+	            	// AccountMenu.onlineChilds.remove(object);
 	            }
 	        }
 				

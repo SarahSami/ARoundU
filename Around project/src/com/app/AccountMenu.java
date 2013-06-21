@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import com.google.android.gcm.GCMRegistrar;
 
@@ -30,8 +31,8 @@ import android.widget.ListView;
 
 public class AccountMenu extends Activity{
 	public static String child= "";
-	public static Child selectedChild;
 	public static ServerMsgParent server;
+	public static LinkedList<Child> onlineChilds;
 	public static SharedPreferences prefs;
 	public static Hashtable<String, String> map = new Hashtable<String,String>();
 	private  ListView listView;
@@ -49,6 +50,7 @@ public class AccountMenu extends Activity{
         }else{
         	setContentView(R.layout.account);
         	prefs = WizardActivity.prefs;
+        	onlineChilds = new LinkedList<Child>();
         	server = new ServerMsgParent(this);
         	GCMRegistrar.checkDevice(this);
      		GCMRegistrar.checkManifest(this);
