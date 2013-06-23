@@ -184,6 +184,8 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		final LinearLayout routeActions = (LinearLayout) routeView.findViewById(R.id.routeActions);
 		
 		Button send = (Button) routeActions.findViewById(R.id.routeSendButton);
+		Button remove = (Button) routeActions.findViewById(R.id.routeDeleteButton);
+		
 		final ToggleButton toggle = (ToggleButton) findViewById(R.id.activationToggleButton);
 		
 		toggle.setOnClickListener(new OnClickListener() {
@@ -191,13 +193,20 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	        public void onClick(View arg0) {
 				//TODO :: put in on-off list
 	            if(toggle.isChecked()){
-	            	AccountMenu.server.gcmServer("parent="+AccountMenu.prefs.getString("id",""));
+	            	// wrong   AccountMenu.server.gcmServer("parent="+AccountMenu.prefs.getString("id",""));
 	            	// AccountMenu.onlineChilds.add(object);
 	            }else{
 	            	// AccountMenu.onlineChilds.remove(object);
 	            }
 	        }
 				
+		});
+		
+		remove.setOnClickListener(new Button.OnClickListener(){
+			public void onClick(View v) {
+				child.routes.remove(route);
+				updateChildsList();
+			}
 		});
 		
 		send.setOnClickListener(new Button.OnClickListener(){
