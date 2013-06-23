@@ -21,6 +21,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public  class MapActivity extends Activity  implements LocationListener{
 	
@@ -39,7 +41,11 @@ public  class MapActivity extends Activity  implements LocationListener{
         Button button = (Button) findViewById(R.id.route);
 	    button.setOnClickListener(new Button.OnClickListener(){
 	    	public void onClick(View v) {
-	    		sendRoute();
+	    		String name = ((TextView) findViewById(R.id.title)).getText().toString();
+	    		if(name.compareTo("") == 0)
+	    			showToast();
+	    		else
+	    			sendRoute(name);
 	    	
 	    	}
 	    });
@@ -50,6 +56,9 @@ public  class MapActivity extends Activity  implements LocationListener{
     }
 
 
+    private void showToast(){
+    	Toast.makeText(this, "Add title for the route", Toast.LENGTH_LONG).show();
+    }
 	private void getLocation() {
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		
@@ -112,7 +121,7 @@ public  class MapActivity extends Activity  implements LocationListener{
 	}
 	
 
-	private void sendRoute(){
+	private void sendRoute(String title){
 		  JSONArray routeArray = null;
 			try {
 				 JSONObject ob = new JSONObject(final_json);
@@ -145,9 +154,9 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    		String lat = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
 				    		
 				    		
-				    		sent+=start.getString(lat)+","+start.getString(lng)+"/";
+				    		sent = start.getString(lat)+","+start.getString(lng);
 				    		
-				    		Log.d("sent",strt+sent);
+				    		
 				    		
 //				    		if(j % 15 == 0 || j == steps.length()-1 && sent.compareTo("")!=0){		    			
 ////				    	        HomeActivity.server.gcmServer(strt+sent);
@@ -161,6 +170,8 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    }
 			     	finish();
 			    	Intent i = new Intent(this, ChildInfoActivity.class);
+			    	i.putExtra("title",title);
+			    	i.putExtra("route",strt+sent);
 				    startActivity(i);
 
 			} catch (JSONException e) {

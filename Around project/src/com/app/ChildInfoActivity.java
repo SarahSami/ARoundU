@@ -2,6 +2,8 @@ package com.app;
 
 import static com.app.CommonUtilities.SENDER_ID;
 
+import java.util.Vector;
+
 import com.app.Child;
 import com.app.Child.Route;
 import com.google.android.gcm.GCMRegistrar;
@@ -67,7 +69,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
         
         // get child id from bundle object
         //int childId = getIntent().getExtras().getInt("CHILD_ID");
-		child = AccountMenu.child;//Child.findChildById(childId);
+		child = AccountMenu.childs.get(AccountMenu.childPosition);//Child.findChildById(childId);
 		
 		// getting access to view elements
 		viewName = (TextView) findViewById(R.id.childname);
@@ -86,6 +88,22 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 
 			
 		});
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+		    String value = extras.getString("route");
+		    String title = extras.getString("title");
+		    if(value.compareTo("") != 0){
+		    	String [] points = value.split("/");
+		    	String [] start = points[0].split(",");
+		    	String [] end = points[1].split(",");
+		    	Vector<Pair<String, String>> route = new Vector<Pair<String,String>>();
+				route.add(new Pair<String, String>(start[0], start[1]));
+				route.add(new Pair<String, String>(end[0], end[1]));
+				child.routes.add(new Route(route,title));
+				AccountMenu.childs.remove(AccountMenu.childPosition);
+				AccountMenu.childs.add(AccountMenu.childPosition,child);
+		    }
+		}
 		
 		// setting routes adapter to routes list
 //		RoutesListAdapter adapter = new RoutesListAdapter(this, R.id.routesList, R.layout.route_list_item, child.routes);
@@ -210,8 +228,8 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	}
 
 	private void showMap(Route route, final WebView webview) {
-		Pair<Double, Double> start = route.steps.get(0);
-		Pair<Double, Double> end = route.steps.get(route.steps.size()-1);
+		Pair<String, String> start = route.steps.get(0);
+		Pair<String, String> end = route.steps.get(route.steps.size()-1);
 		final String centerURL = "javascript:init(" +start.first + "," +start.second+ ","+
 													end.first+","+end.second+")";
 		webview.getSettings().setJavaScriptEnabled(true);

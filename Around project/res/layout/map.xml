@@ -4,17 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-  <WebView
-      android:id="@+id/webview"
-      android:layout_width="fill_parent"
-      android:layout_height="404dp"
-      android:apiKey="AIzaSyBunI4rYQnlY_rLXxILolFEK1VTPAcSviI" android:layout_weight="3.08"/>
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="365dp"
+        android:apiKey="AIzaSyBunI4rYQnlY_rLXxILolFEK1VTPAcSviI" />
 
-  <Button
-      android:id="@+id/route"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="OK" />
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.71"
+        android:hint="add title for the route"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/route"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="OK" />
 
 </LinearLayout>
-    

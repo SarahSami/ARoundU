@@ -30,7 +30,7 @@ public class Child implements Serializable{
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		public Vector<Pair<Double, Double>> steps;
+		public Vector<Pair<String, String>> steps;
 		public String name;
 		public int greenZone;
 //		public double startLat;
@@ -38,7 +38,7 @@ public class Child implements Serializable{
 //		public double startLng;
 //		public double endLng;
 		
-		public Route(Vector<Pair<Double, Double>> steps, String name) {
+		public Route(Vector<Pair<String, String>> steps, String name) {
 			this.steps = steps;
 			this.name = name;
 		}
@@ -57,22 +57,22 @@ public class Child implements Serializable{
 	public static Child findChildById(int childId){
 		// TODO: needs to be implemented
 		Child c = new Child();
-		c.name = "Boody";
-		c.mail = "sarahsami198";
-		c.lat = 31.214306;
-		c.lng = 29.945587;
-		getId(c);
-		// build redundant routes
-		Vector<Pair<Double, Double>> route1 = new Vector<Pair<Double,Double>>();
-		route1.add(new Pair<Double, Double>(31.214306, 29.945587));
-		route1.add(new Pair<Double, Double>(31.217288, 29.94637));
-		
-		Vector<Pair<Double, Double>> route2 = new Vector<Pair<Double,Double>>();
-		route2.add(new Pair<Double, Double>(31.214306, 29.945587));
-		route2.add(new Pair<Double, Double>(31.213013, 29.943312));
-		
-		c.routes.add(new Route(route1, "Way to Club"));
-		c.routes.add(new Route(route2, "Way to Home"));
+//		c.name = "Boody";
+//		c.mail = "sarahsami198";
+//		c.lat = 31.214306;
+//		c.lng = 29.945587;
+//		getId(c);
+//		// build redundant routes
+//		Vector<Pair<Double, Double>> route1 = new Vector<Pair<Double,Double>>();
+//		route1.add(new Pair<Double, Double>(31.214306, 29.945587));
+//		route1.add(new Pair<Double, Double>(31.217288, 29.94637));
+//		
+//		Vector<Pair<Double, Double>> route2 = new Vector<Pair<Double,Double>>();
+//		route2.add(new Pair<Double, Double>(31.214306, 29.945587));
+//		route2.add(new Pair<Double, Double>(31.213013, 29.943312));
+//		
+//		c.routes.add(new Route(route1, "Way to Club"));
+//		c.routes.add(new Route(route2, "Way to Home"));
 		return c;
 	}
 	

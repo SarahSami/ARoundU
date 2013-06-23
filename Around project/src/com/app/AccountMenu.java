@@ -31,13 +31,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class AccountMenu extends Activity{
-	public static Child child;
 	public static ServerMsgParent server;
 	public static LinkedList<Child> onlineChilds;
 	public static LinkedList<Child> childs = new LinkedList<Child>();
 	public static SharedPreferences prefs;
 	public static Hashtable<String, String> map = new Hashtable<String,String>();
 	private  ListView listView;
+	public static int childPosition;
 	private String []users;
 	private Adapter adapterCH;
 	private LazyAdapter adapter;
@@ -74,8 +74,7 @@ public class AccountMenu extends Activity{
 						String k = (String)itr.next();
 						
 						if((users[position]).compareTo(map.get(k) )== 0){
-							Log.d("user pos",""+position +" k "+k);
-							child = childs.get(position);	
+							childPosition = position;
 						}
 					}
 					start();
