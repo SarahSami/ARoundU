@@ -7,6 +7,7 @@ import java.util.Vector;
 import com.app.Child;
 import com.app.Child.Route;
 import com.google.android.gcm.GCMRegistrar;
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -100,8 +101,8 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 				route.add(new Pair<String, String>(start[0], start[1]));
 				route.add(new Pair<String, String>(end[0], end[1]));
 				child.routes.add(new Route(route,title));
-				AccountMenu.childs.remove(AccountMenu.childPosition);
-				AccountMenu.childs.add(AccountMenu.childPosition,child);
+				updateChildsList();
+				
 		    }
 		}
 		
@@ -116,6 +117,27 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 	}
 	
+	private void updateChildsList() {
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				AccountMenu.childs.remove(AccountMenu.childPosition);
+				AccountMenu.childs.add(AccountMenu.childPosition, child);
+				String tmp = "";
+				Gson gson = new Gson();
+				for(int i=0;i<AccountMenu.childs.size();i++){
+					String json = gson.toJson(AccountMenu.childs.get(i));
+					tmp = tmp+"/"+json;
+				}
+				if(tmp.compareTo("") != 0)
+					AccountMenu.prefs.edit().putString("child",tmp).commit();
+				Log.d("new childs list",tmp);
+			}
+		}).start();
+
+	}
+
 	private void displayCurrentLocation(double lattitude, double longitude){
 		final String centerURL = "javascript:init(" +lattitude + "," +longitude+ ")";
 		childCurrentLocation.getSettings().setJavaScriptEnabled(true);
