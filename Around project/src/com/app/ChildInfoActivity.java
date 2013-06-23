@@ -42,7 +42,8 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	// view elements
 	WebView childCurrentLocation;
 	LinearLayout routesList;
-	
+	private TextView viewName;
+	private TextView lastLoc;
 	
 	public ReceiveLoc locReceiver;
 	public final static String ACTION = "action!";
@@ -50,16 +51,13 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
     public static String preferences = "pref";
 	public static String needLocation = "";
 	
-	Child child;
+	private Child child;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.child);
-		
-		
-		
 		locReceiver = new ReceiveLoc();
         
         IntentFilter intentFilter = new IntentFilter();
@@ -69,10 +67,15 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
         
         // get child id from bundle object
         //int childId = getIntent().getExtras().getInt("CHILD_ID");
-        int childId = 0;
-		child = Child.findChildById(childId);
+		child = AccountMenu.child;//Child.findChildById(childId);
 		
 		// getting access to view elements
+		viewName = (TextView) findViewById(R.id.childname);
+		lastLoc = (TextView) findViewById(R.id.lastUpdateTimestamp);
+		
+		viewName.setText(child.name);
+		lastLoc.setText(child.name+" was here");
+		
 		childCurrentLocation = (WebView) findViewById(R.id.childCurrentMapLocation);
 		routesList = (LinearLayout) findViewById(R.id.routesList);
 		Button call = (Button) findViewById(R.id.childCallButton);
@@ -201,7 +204,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	private void callChild() {
 		String num = child.number;
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
-		callIntent.setData(Uri.parse("tel:5556"));
+		callIntent.setData(Uri.parse("tel:"+num));
 		startActivity(callIntent);
 		
 	}

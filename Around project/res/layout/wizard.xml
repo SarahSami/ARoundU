@@ -5,15 +5,6 @@
     android:background="@drawable/bgb1"
     android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/ok"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
-        android:layout_x="86dp"
-        android:layout_y="358dp"
-        android:gravity="left|center_vertical"
-        android:text="Done" />
-
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="124dp"
@@ -22,18 +13,29 @@
         android:layout_y="84dp" >
 
         <RadioButton
-            android:id="@+id/child"
+            android:id="@+id/childradio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:text="Child" />
 
         <RadioButton
-            android:id="@+id/parent"
+            android:id="@+id/parentradio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Parent" />
 
     </RadioGroup>
+
+    <Button
+        android:id="@+id/ok"
+        style="@style/ButtonText"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_x="105dp"
+        android:layout_y="352dp"
+        android:background="@drawable/button"
+        android:gravity="left|center_vertical"
+        android:text="      Done" />
 
 </AbsoluteLayout>

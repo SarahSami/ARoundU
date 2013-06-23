@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import com.google.android.gcm.GCMRegistrar;
+import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,9 +31,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class AccountMenu extends Activity{
-	public static String child= "";
+	public static Child child;
 	public static ServerMsgParent server;
 	public static LinkedList<Child> onlineChilds;
+	public static LinkedList<Child> childs = new LinkedList<Child>();
 	public static SharedPreferences prefs;
 	public static Hashtable<String, String> map = new Hashtable<String,String>();
 	private  ListView listView;
@@ -70,8 +72,11 @@ public class AccountMenu extends Activity{
 					Iterator itr = map.keySet().iterator();
 					while(itr.hasNext()){
 						String k = (String)itr.next();
-						if((users[position]).compareTo(map.get(k) )== 0)
-							child = k;	
+						
+						if((users[position]).compareTo(map.get(k) )== 0){
+							Log.d("user pos",""+position +" k "+k);
+							child = childs.get(position);	
+						}
 					}
 					start();
 				}
@@ -110,27 +115,50 @@ public class AccountMenu extends Activity{
 	}
 
 	private void loadData() throws IOException{
-    	FileInputStream fip = openFileInput("users");
-        InputStreamReader isr = new InputStreamReader ( fip ) ;
-        BufferedReader buffreader = new BufferedReader ( isr ) ;
-        String readString = buffreader.readLine();
-        users = new String[0];
-        if(readString != null){
-	        String [] contacts = readString.split("/");
-	        users = new String[contacts.length];
-	        String [] parts; 
-	        for(int i=0;i<contacts.length;i++){
-	        	parts = contacts[i].split(",");
-	        	Log.d("contact",contacts[i]);
-	        	if(parts[1].compareTo("") != 0){
-	        		users[i] = parts[1];
-	        		if(parts.length >2 && parts[2].compareTo("") != 0)
-	            		users[i]+=" "+parts[2];
-	        	}else
-	        		users[i] = parts[0];
-	        	map.put(parts[0], users[i]);	        	
-	        }
-        }
+		Gson gson = new Gson();
+		users = new String[0];
+		String [] jsons = null;
+		childs.clear();
+		if(prefs.contains("child")){
+			
+			String chs = prefs.getString("child", "");
+			if(chs.charAt(0) == '/')
+				chs = chs.substring(1);
+			
+			if(chs.contains("/")){
+				jsons = chs.split("/");
+				users = new String[jsons.length];
+			}
+			else if(chs.compareTo("") != 0){
+				users = new String[1];
+				jsons = new String[1];
+				jsons[0] = chs;
+			}
+			
+			for(int i=0;i<users.length;i++){
+			    Child c = gson.fromJson(jsons[i], Child.class);
+			    childs.add(c);
+			    users[i] = c.name;
+	        	map.put(c.mail, c.name);
+			}
+	    
+		}
+    	//FileInputStream fip = openFileInput("users");
+        //InputStreamReader isr = new InputStreamReader ( fip ) ;
+        //BufferedReader buffreader = new BufferedReader ( isr ) ;
+        //String readString = buffreader.readLine();
+        
+        //if(readString != null){
+	        //String [] contacts = readString.split("/");
+	        //users = new String[1];
+	        //String [] parts; 
+	       // for(int i=0;i<contacts.length;i++){
+	        //	parts = contacts[i].split(",");
+	        //	Log.d("contact",contacts[i]);
+	        	//users[0] = c.name;
+	        	//map.put(c.mail, c.name);	        	
+	       // }
+       // }
         adapter = new LazyAdapter(this, users);
         adapterCH = new Adapter(this, users);
         listView.setAdapter(adapter);
@@ -183,27 +211,36 @@ public class AccountMenu extends Activity{
 	
 	
 	public void saveToFile() throws IOException{
-		FileOutputStream fos = openFileOutput("users", 0);
-    	OutputStreamWriter isw = new OutputStreamWriter ( fos ) ;
-        BufferedWriter buffw = new BufferedWriter( isw ) ;
+		//FileOutputStream fos = openFileOutput("users", 0);
+    	//OutputStreamWriter isw = new OutputStreamWriter ( fos ) ;
+       // BufferedWriter buffw = new BufferedWriter( isw ) ;
+		prefs.edit().remove("child").commit();
+		//LinkedList<Child> tmplist = childs;
+		String tmp = "";
+		Gson gson = new Gson();
+		//childs.clear();
 		for(int i=0;i<users.length;i++){ 
     		Iterator itr = map.keySet().iterator();
     		if(!adapterCH.checks.contains(i)){
 				while(itr.hasNext()){
 					String k = (String)itr.next();
-					String[] params;
-					if((users[i]).compareTo(map.get(k) )== 0){
-						
-							 params = (users[i]).split(" ");
-							 if(params.length > 1)
-								 buffw.write(k+","+params[0]+","+params[1]);
-							 else
-								 buffw.write(k+","+params[0]+","+" ");
-						     buffw.write("/");
+					//String[] params;
+					if((users[i]).compareTo(map.get(k)) == 0){
+						String json = gson.toJson(childs.get(i));
+						tmp = tmp+"/"+json;
+//							 params = (users[i]).split(" ");
+//							 if(params.length > 1)
+//								 buffw.write(k+","+params[0]+","+params[1]);
+//							 else
+//								 buffw.write(k+","+params[0]+","+" ");
+//						     buffw.write("/");
 						}
 					}
 			}
     	}
-		buffw.close();
+		Log.d("saved after remove is ",tmp);
+		if(tmp.compareTo("") != 0)
+			prefs.edit().putString("child",tmp).commit();
+		//buffw.close();
 	}
 }

@@ -25,10 +25,9 @@ public class WizardActivity extends Activity {
 		String first = prefs.getString("user", "");
 		
 		if (first.equals("")) {
-			Log.d("first status","in first");
 			setContentView(R.layout.wizard);
-			final RadioButton child = (RadioButton) findViewById(R.id.child);
-			final RadioButton parent = (RadioButton) findViewById(R.id.parent);
+			final RadioButton child = (RadioButton) findViewById(R.id.childradio);
+			final RadioButton parent = (RadioButton) findViewById(R.id.parentradio);
 			Button ok = (Button) findViewById(R.id.ok);
 
 			ok.setOnClickListener(new Button.OnClickListener() {

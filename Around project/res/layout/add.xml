@@ -19,19 +19,19 @@
         android:layout_x="40dp"
         android:layout_y="20dp"
         android:ems="10"
-        android:hint="First name"
+        android:hint="Name"
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/lname"
+        android:id="@+id/number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
         android:layout_x="40dp"
         android:layout_y="129dp"
         android:ems="10"
-        android:hint="Last name"
-        android:inputType="textPersonName" >
+        android:hint="Telephone number"
+        android:inputType="number" >
 
         <requestFocus />
     </EditText>
@@ -49,13 +49,13 @@
     <Button
         android:id="@+id/done"
         style="@style/ButtonText"
+        android:background="@drawable/button"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_marginRight="30dp"
         android:layout_x="100dp"
         android:layout_y="368dp"
         android:textSize="15dp"
-        android:background="@drawable/button"
         android:gravity="center_vertical"
         android:text="     done" />
  

@@ -1,20 +1,21 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView1"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/bgb1" >
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
         android:padding="5dp" 
-        android:background="@android:color/darker_gray">
+        android:background="@drawable/bgb1">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/childname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Bedo"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
@@ -42,6 +43,8 @@
 
                 <ToggleButton
                     android:id="@+id/activationToggleButton"
+                    style="@style/ButtonText"
+        			android:background="@drawable/button"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -49,6 +52,8 @@
 
                 <Button
                     android:id="@+id/childCallButton"
+                    style="@style/ButtonText"
+        			android:background="@drawable/button"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -60,7 +65,7 @@
             android:id="@+id/lastUpdateTimestamp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Bedo was here from 20 minutes ago!"
+            android:text=""
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <WebView
@@ -71,6 +76,8 @@
 
         <Button
             android:id="@+id/addNewRouteButton"
+            style="@style/ButtonText"
+        	android:background="@drawable/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
