@@ -75,6 +75,7 @@ public class AccountMenu extends Activity{
 						
 						if((users[position]).compareTo(map.get(k) )== 0){
 							childPosition = position;
+							childs.get(childPosition).getId();
 						}
 					}
 					start();

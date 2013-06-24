@@ -12,6 +12,7 @@ only clicks of 2 markers when set new route , disable new request markers ✔
 notification when route sent to child ✔
 multi-parent system >>> delete ref parent if child deleted from parent ✔
 call child ✔
+green zone new route
 one apk >> wizard setup ✔
 
 
@@ -25,3 +26,5 @@ remove marker drag and drop  ✔
 refactor code
 
 
+
+    

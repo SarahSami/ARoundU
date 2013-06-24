@@ -138,12 +138,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 						RouteService.greenZone = Integer.parseInt(message.substring(6));
 					RouteService.points.clear();
 					ChildActivity.prefs.edit().putString("route", "").commit();
-				} else if (message.contains(" ")) {
-					String[] sp = message.split(" ");
-					if (sp[0].compareTo("no") == 0)
-						RouteService.dangerousRoutes.remove(sp[1]);
-
-				} else if (message.contains("parent=")) {
+				}
+				else if (message.contains("parent=")) {
 					String rid = message.substring(7);
 					Log.d("parent id", rid);
 					if (!ChildActivity.prefs.contains("id"))
@@ -152,12 +148,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 					String rt = ChildActivity.prefs.getString("id", "");
 					if (!rt.contains(rid))
 						ChildActivity.prefs.edit().putString("id", rt + "/" + rid).commit();
-				} else {
-					notification(context);
-					if (!ChildActivity.prefs.contains("route"))
-						ChildActivity.prefs.edit().putString("route", "").commit();
-					String rt = ChildActivity.prefs.getString("route", "");
-					ChildActivity.prefs.edit().putString("route", rt + "/" + message).commit();
+				} else if(message.contains("new route")){
+					message = message.substring(10);
+					String name = message.substring(0,message.indexOf(':'));
+					message = message.substring(5);
+					Log.d("name of route",name);
+					Log.d("the route is ",message);
+					notification(context,name);
+					ChildActivity.prefs.edit().putString("route",message).commit();
 				}
 
 			}
@@ -184,7 +182,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		return super.onRecoverableError(context, errorId);
 	}
 
-	public void notification(Context cntx) {
+	public void notification(Context cntx,String name) {
 		String msg = "New route received from parent.";
 		String svcName = Context.NOTIFICATION_SERVICE;
 		NotificationManager notificationManager;
@@ -201,7 +199,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		PendingIntent launchIntent = PendingIntent.getActivity(
 				cntx.getApplicationContext(), 0, intnt, 0);
 		notification.contentIntent = launchIntent;
-		notification.contentView.setTextViewText(R.id.status_text, msg);
+		notification.contentView.setTextViewText(R.id.status_text, name);
+		notification.contentView.setTextViewText(R.id.name,msg);
 		int notificationRef = 1;
 		notificationManager.notify(notificationRef, notification);
 	}

@@ -12,7 +12,7 @@ public class GuideView extends Activity{
 	
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.map);
+	        setContentView(R.layout.guide);
 	        setupWebView();
 	        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	        
@@ -38,7 +38,7 @@ public class GuideView extends Activity{
 	    				  +RouteService.lat + "," +RouteService.lng+","+src[0]+","+
 	    				  src[1]+","+dst[0]+","+dst[1]+",'"+pnts+"')";
 	    		  Log.d("url",centerURL);
-	        	  webview = (WebView) findViewById(R.id.webview);
+	        	  webview = (WebView) findViewById(R.id.locview);
 	        	  WebSettings webSettings = webview.getSettings();
 	        	  webSettings.setJavaScriptEnabled(true);
 	        	  webview.setWebViewClient(new WebViewClient(){

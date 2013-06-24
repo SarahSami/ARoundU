@@ -95,11 +95,11 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		    String title = extras.getString("title");
 		    if(value.compareTo("") != 0){
 		    	String [] points = value.split("/");
-		    	String [] start = points[0].split(",");
-		    	String [] end = points[1].split(",");
 		    	Vector<Pair<String, String>> route = new Vector<Pair<String,String>>();
-				route.add(new Pair<String, String>(start[0], start[1]));
-				route.add(new Pair<String, String>(end[0], end[1]));
+		    	for(int i=0;i<points.length;i++){
+		    		String [] start = points[i].split(",");
+		    		route.add(new Pair<String, String>(start[0], start[1]));
+		    	}
 				child.routes.add(new Route(route,title));
 				updateChildsList();
 				
@@ -161,6 +161,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	}
 	
 	public void addNewRoute(View view){
+		finish();
     	Intent i = new Intent(this, MapActivity.class);
 	    startActivityForResult(i, 20);
 	}
@@ -211,8 +212,10 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 		send.setOnClickListener(new Button.OnClickListener(){
 	    	public void onClick(View v) {
-				//TODO :: send route here
-				AccountMenu.server.gcmServer("new msg to child");
+	    		String points = route.steps.get(0).first+","+route.steps.get(0).second;
+	    		for(int i=1;i<route.steps.size();i++)
+	    			points = points+"/"+route.steps.get(i).first+","+route.steps.get(i).second;
+				AccountMenu.server.gcmServer("new route:"+route.name+":"+points);
 			}
 		});
 		// setting route actions (send, edit and delete) and routeSteps viewer to be invisible

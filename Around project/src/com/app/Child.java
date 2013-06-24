@@ -76,8 +76,7 @@ public class Child implements Serializable{
 		return c;
 	}
 	
-	private static void getId(Child c) {
-		String mail = c.mail;
+	public  void getId() {
 		Log.d("in get id","in id");
 		if(!mail.contains("@gmail"))
 			mail+="@gmail.com";

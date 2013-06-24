@@ -127,7 +127,6 @@ public  class MapActivity extends Activity  implements LocationListener{
 				 JSONObject ob = new JSONObject(final_json);
 			     routeArray = ob.getJSONArray("routes");
 			     String sent = "";
-			     String strt = "";
 			     boolean putStart = false;
 			     for(int i=0;i<routeArray.length();i++){
 				    	JSONObject route = routeArray.getJSONObject(i);
@@ -144,7 +143,7 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    			String ed = start.toString();
 				    			String k = ed.charAt(2)+""+ed.charAt(3);
 				    			String g = ed.charAt(ed.indexOf(",")+2)+""+ed.charAt(ed.indexOf(",")+3);
-				    			strt = end.getString(g)+","+end.getString(k)+"/";
+				    			sent = end.getString(g)+","+end.getString(k);
 				    			putStart = true;
 				    		}
 				    		
@@ -154,7 +153,7 @@ public  class MapActivity extends Activity  implements LocationListener{
 				    		String lat = st.charAt(st.indexOf(",")+2)+""+st.charAt(st.indexOf(",")+3);
 				    		
 				    		
-				    		sent = start.getString(lat)+","+start.getString(lng);
+				    		sent = sent+"/"+ start.getString(lat)+","+start.getString(lng);
 				    		
 				    		
 				    		
@@ -171,7 +170,7 @@ public  class MapActivity extends Activity  implements LocationListener{
 			     	finish();
 			    	Intent i = new Intent(this, ChildInfoActivity.class);
 			    	i.putExtra("title",title);
-			    	i.putExtra("route",strt+sent);
+			    	i.putExtra("route",sent);
 				    startActivity(i);
 
 			} catch (JSONException e) {
