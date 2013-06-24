@@ -19,7 +19,23 @@
 		     init();
          }
          
-         function init(lat,lng){ 
+         function init(lat,lng,unknown){
+         if(!unknown){
+         	 document.getElementById("text").style.visibility="visible";
+         }
+         else{
+         	var all_div_nodes = document.querySelectorAll('div'),
+		    len  = all_div_nodes.length,
+		    current = null;
+		
+		    while( len-- ) {
+			    current = all_div_nodes[len];
+			    if( current.parentNode ) {
+			        if( current.id !== 'map_canvas' )
+			            current.parentNode.removeChild( current );
+			    }
+		    }
+
             directionsDisplay = new google.maps.DirectionsRenderer();
 			var alex = new google.maps.LatLng(lat,lng);
 			var myOptions = {
@@ -38,12 +54,15 @@
 		     });
 
 			directionsDisplay.setMap(map);
+			
+			}
 			}
  
     </script>
   </head>
   <body onload="initialize()">
+   <div id="text" style="visibility: hidden;" ><p><b>		Current location is unknown</b></p></div>
     <div id="map_canvas" style="width:100%; height:100%"></div>
- 
+ 	
   </body>
 </html>

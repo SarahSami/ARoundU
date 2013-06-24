@@ -137,8 +137,9 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 
 	}
 
-	private void displayCurrentLocation(double lattitude, double longitude){
-		final String centerURL = "javascript:init(" +lattitude + "," +longitude+ ")";
+	private void displayCurrentLocation(double lattitude, double longitude,boolean b){
+		final String centerURL  = "javascript:init(" +lattitude + "," +longitude+ ","+b+")";
+		Log.d("url",centerURL);
 		childCurrentLocation.getSettings().setJavaScriptEnabled(true);
 		WebSettings webSettings = childCurrentLocation.getSettings();
 		webSettings.setJavaScriptEnabled(true);
@@ -298,10 +299,13 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	
 	
 	
-	private void showLoc(double lat,double lng){
+	private void showLoc(double lat,double lng,boolean b){
 		child.lat = lat;
 		child.lng = lng;
-		displayCurrentLocation(child.lat, child.lng);
+		if(b)
+			displayCurrentLocation(child.lat, child.lng,b);
+		else
+			displayCurrentLocation(child.lat, child.lng,b);
 		
 	}
 	
@@ -319,11 +323,13 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		public void onReceive(Context arg0, Intent in) {
 			String loc = in.getStringExtra("loc");
 			if(loc != null){
-				
-	    		String [] msg = loc.split(",");
-	   		    double lat = Double.parseDouble(msg[0]);
-	  			double longt = Double.parseDouble(msg[1]);
-	  			showLoc(lat,longt);   
+				if(loc.contains(",")){
+		    		String [] msg = loc.split(",");
+		   		    double lat = Double.parseDouble(msg[0]);
+		  			double longt = Double.parseDouble(msg[1]);
+		  			showLoc(lat,longt,true); 
+				}else
+					showLoc(0,0,false); 
 	}
 	}
 }
