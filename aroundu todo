@@ -1,10 +1,10 @@
 static routes menu , way to home , to club ,to ✔
 choosing different route rather than shortest ✔
 
-save data each child in file and retrieve when view
+save data each child in shared preference and retrieve when view ✔
 textedit for green zone hidden then press next appears
-after adding route save it don't send it
-remove child menu
+after adding route save it don't send it ✔
+remove child button
 
 
 display route in menu static routes ✔
@@ -12,7 +12,6 @@ only clicks of 2 markers when set new route , disable new request markers ✔
 notification when route sent to child ✔
 multi-parent system >>> delete ref parent if child deleted from parent ✔
 call child ✔
-green zone new route
 one apk >> wizard setup ✔
 
 
