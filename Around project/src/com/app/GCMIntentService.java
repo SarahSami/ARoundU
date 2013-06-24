@@ -72,14 +72,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 				child = AccountMenu.map.get(params[1]);
 
 			}
-			if (message.contains(",")) {
+			if (message.contains(",") || message.contains("location is unknown")) {
 				Intent intn = new Intent();
 				intn.setAction(ChildInfoActivity.ACTION);
 				intn.putExtra("loc", "" + message);
 				context.sendBroadcast(intn);
 
 			} else {
-				//if (onlineChild(child)) {
+				if (onlineChild(child)) {
 					if (message.contains("battery")) {
 
 						String svcName = Context.NOTIFICATION_SERVICE;
@@ -124,7 +124,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 						notificationManager.notify(notificationRef,notification);
 					}
 				}
-			//}
+			}
 		} else {
 			Log.d("child :: ", "msg in child " + message);
 			if (message.equals("getLocation")) {
@@ -163,11 +163,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	private boolean onlineChild(String child) {
-		for(int i=0;i<AccountMenu.onlineChilds.size();i++){
-			if(AccountMenu.onlineChilds.get(i).name.equals(child))
-				return true;
-		}
-		return false;
+		return true;
 	}
 
 	

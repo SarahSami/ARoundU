@@ -32,7 +32,6 @@ import android.widget.ListView;
 
 public class AccountMenu extends Activity{
 	public static ServerMsgParent server;
-	public static LinkedList<Child> onlineChilds;
 	public static LinkedList<Child> childs = new LinkedList<Child>();
 	public static SharedPreferences prefs;
 	public static Hashtable<String, String> map = new Hashtable<String,String>();
@@ -52,7 +51,6 @@ public class AccountMenu extends Activity{
         }else{
         	setContentView(R.layout.account);
         	prefs = WizardActivity.prefs;
-        	onlineChilds = new LinkedList<Child>();
         	server = new ServerMsgParent(this);
         	GCMRegistrar.checkDevice(this);
      		GCMRegistrar.checkManifest(this);

@@ -48,7 +48,6 @@ public class RouteService extends IntentService implements LocationListener{
 		     if(location != null){
 			     lat = location.getLatitude();
 			     lng = location.getLongitude();    
-			     Log.d("in locatioon","found!!!");
 		     }
 		     else
 		    	 ChildActivity.server.gcmServer("location is unknown:"+ChildActivity.account);

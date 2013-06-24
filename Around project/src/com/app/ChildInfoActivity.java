@@ -52,7 +52,6 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	public final static String ACTION = "action!";
 	
     public static String preferences = "pref";
-	public static String needLocation = "";
 	
 	private Child child;
 	
@@ -195,9 +194,9 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 				//TODO :: put in on-off list
 	            if(toggle.isChecked()){
 	            	// wrong   AccountMenu.server.gcmServer("parent="+AccountMenu.prefs.getString("id",""));
-	            	// AccountMenu.onlineChilds.add(object);
+	            	// Add to online childs
 	            }else{
-	            	// AccountMenu.onlineChilds.remove(object);
+	            	// remove from online childs
 	            }
 	        }
 				
@@ -292,7 +291,6 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		try{
 	    	unregisterReceiver(locReceiver);
 	    	}catch(IllegalArgumentException e){
-	    		
 	    	}
 		super.onPause();
 	}
@@ -307,11 +305,13 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 	}
 	
+	
 	private void checkNotNull(Object reference, String name) {
 		if (reference == null) {
 			Log.d("debug","errorrr");
 		}
 	}
+	
 	
 	public class ReceiveLoc extends BroadcastReceiver{
 
@@ -319,13 +319,11 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		public void onReceive(Context arg0, Intent in) {
 			String loc = in.getStringExtra("loc");
 			if(loc != null){
-				needLocation = loc;
-	    		String tmp = needLocation;
-	    		String [] msg = tmp.split(",");
+				
+	    		String [] msg = loc.split(",");
 	   		    double lat = Double.parseDouble(msg[0]);
 	  			double longt = Double.parseDouble(msg[1]);
-	  			showLoc(lat,longt);
-    
+	  			showLoc(lat,longt);   
 	}
 	}
 }
