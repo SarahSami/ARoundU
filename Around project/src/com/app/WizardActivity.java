@@ -43,9 +43,6 @@ public class WizardActivity extends Activity {
 
 		}else
 			launch();
-		
-		
-
 	}
 
 	private void launch() {

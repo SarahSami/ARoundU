@@ -79,7 +79,7 @@ public  class MapActivity extends Activity  implements LocationListener{
 
 	public  void setupWebView(){
     	  final String centerURL = "javascript:init(" +lattitude + "," +longitude+ ")";
-    	  webview = (WebView) findViewById(R.id.webview);
+    	  webview = (WebView) findViewById(R.id.map_view);
     	  webview.getSettings().setJavaScriptEnabled(true);
     	  WebSettings webSettings = webview.getSettings();
     	  webSettings.setJavaScriptEnabled(true);
