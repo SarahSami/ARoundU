@@ -10,8 +10,10 @@ import com.google.android.gcm.GCMRegistrar;
 import com.google.gson.Gson;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -22,6 +24,9 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
@@ -333,5 +338,38 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	}
 	}
 }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.child_menu, menu);
+	    return true;
+	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.delete_child:
+	        	new AlertDialog.Builder(this)
+	            .setTitle("Delete Child")
+	            .setMessage("Are you sure you want to delete this child?")
+	            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) { 
+	                    // continue with delete
+	                }
+	             })
+	            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) { 
+	                    // do nothing
+	                }
+	             })
+	             .show();
+	            return true;
+	        case R.id.child_help:
+//	            showHelp();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
 }
