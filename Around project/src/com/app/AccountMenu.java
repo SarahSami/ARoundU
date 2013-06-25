@@ -18,17 +18,24 @@ import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class AccountMenu extends Activity{
 	public static ServerMsgParent server;
@@ -164,16 +171,65 @@ public class AccountMenu extends Activity{
 	}
 	
 	private void start(){
-		
 		Intent myIntent = new Intent(this, ChildInfoActivity.class);
 		startActivity(myIntent);
 	}
 	
 	public void addChild(View v){
-		Intent myIntent = new Intent(this, AddActivity.class);
-		startActivity(myIntent);
+		Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+		startActivityForResult(intent, PICK_CONTACT);
 	}
+	private static final int PICK_CONTACT = 2;
 	
+	@Override
+	public void onActivityResult(int reqCode, int resultCode, Intent data) {
+		super.onActivityResult(reqCode, resultCode, data);
+
+		if(reqCode == PICK_CONTACT){
+			String displayName = ""; String emailAddress = ""; String phoneNumber = "";
+			if (resultCode == Activity.RESULT_OK){
+				Uri contactData = data.getData();
+				ContentResolver cr = getContentResolver();
+				Cursor c = managedQuery(contactData, null, null, null, null);
+				
+				if (c.moveToFirst()) {
+					String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+					
+					// getting user name
+					displayName = c.getString(c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+					
+					// getting user gmail
+					Cursor emails = cr.query(Email.CONTENT_URI,null,Email.CONTACT_ID + " = " + id, null, null);
+					while (emails.moveToNext()) { 
+						emailAddress = emails.getString(emails.getColumnIndex(Email.DATA));
+						if (emailAddress.substring(emailAddress.indexOf("@")).equalsIgnoreCase("@gmail.com")) {
+							break;
+						}else{
+							emailAddress = "";
+						}
+					}
+					emails.close();
+					
+					// getting user phone number
+					if(Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+						Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",new String[]{id}, null);
+						while (pCur.moveToNext()) {
+							phoneNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+							break;
+						}
+						pCur.close();
+					}
+				}
+			}
+			// send this information to the child AddActivity to use it.
+			Intent i = new Intent(this, AddActivity.class);
+			i.putExtra("name", displayName);
+			i.putExtra("phone", phoneNumber);
+			i.putExtra("email", emailAddress);
+			startActivity(i);
+		}
+	}
+
 	public void removeChild(View v){
 		if(users == null)
 			return;

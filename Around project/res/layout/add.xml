@@ -1,63 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/gradient_bg"
+    
+    android:paddingTop="15dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical" >
 
- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        
-<AbsoluteLayout 
-    android:padding = "5dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bgb1" >
-
-    <EditText
-        android:id="@+id/fname"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:layout_x="40dp"
-        android:layout_y="20dp"
-        android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName" />
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/number"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:text="Child name:" />
+
+        <EditText
+            android:id="@+id/fname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="e.g. Json"
+            android:inputType="textPersonName" />
+
+        <View style="@style/Divider"
+            android:background="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:layout_x="40dp"
-        android:layout_y="129dp"
-        android:ems="10"
-        android:hint="Telephone number"
-        android:inputType="number" >
+        android:orientation="vertical" >
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:text="Child phone number:" />
 
-    <EditText
-        android:id="@+id/mail"
-        android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="e.g. 01286796426"
+            android:inputType="number" >
+        </EditText>
+
+        <View style="@style/Divider"
+            android:background="@android:color/darker_gray" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_x="40dp"
-        android:layout_y="254dp"
-        android:ems="10"
-        android:hint="google account"
-        android:inputType="textEmailAddress" />
+        android:orientation="vertical"
+        android:layout_marginBottom="30dp" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textAppearance="?android:attr/textAppearanceMedium" 
+            android:text="Child Gmail account:" />
+
+        <EditText
+            android:id="@+id/mail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="e.g. json@gmail.com"
+            android:inputType="textEmailAddress" />
+
+        <View style="@style/Divider"
+            android:background="@android:color/darker_gray" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/done"
         style="@style/ButtonText"
+        android:layout_marginTop="150dp"
         android:background="@drawable/button"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="30dp"
-        android:layout_x="100dp"
-        android:layout_y="368dp"
-        android:textSize="15dp"
-        android:gravity="center_vertical"
-        android:text="     done" />
- 
-</AbsoluteLayout>
-</ScrollView> 
+        android:onClick="addChild"
+        android:text="done"
+        android:textSize="15dp" />
+
+</LinearLayout>
