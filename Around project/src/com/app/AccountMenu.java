@@ -36,7 +36,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-//////////
+
+
 public class AccountMenu extends Activity{
 	public static ServerMsgParent server;
 	public static LinkedList<Child> childs = new LinkedList<Child>();
