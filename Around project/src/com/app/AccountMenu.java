@@ -45,7 +45,7 @@ public class AccountMenu extends Activity{
 	public static Hashtable<String, String> map = new Hashtable<String,String>();
 	private  ListView listView;
 	public static int childPosition;
-	private String []users;
+	public static String []users;
 	private Adapter adapterCH;
 	private LazyAdapter adapter;
 	
@@ -231,25 +231,25 @@ public class AccountMenu extends Activity{
 		}
 	}
 
-	public void removeChild(View v){
-		if(users == null)
-			return;
-		
-		if(listView.getAdapter() == adapterCH)
-			listView.setAdapter(adapter);
-		else
-			listView.setAdapter(adapterCH);
-
-		if(adapterCH.checks.size() > 0){
-	    	try {
-				saveToFile();
-				loadData();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	    	adapterCH.checks.clear();
-	    }
-	}
+//	public void removeChild(View v){
+//		if(users == null)
+//			return;
+//		
+//		if(listView.getAdapter() == adapterCH)
+//			listView.setAdapter(adapter);
+//		else
+//			listView.setAdapter(adapterCH);
+//
+//		if(adapterCH.checks.size() > 0){
+//	    	try {
+//				saveToFile();
+//				loadData();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//	    	adapterCH.checks.clear();
+//	    }
+//	}
 	
 	@Override
 	protected void onResume() {
@@ -265,37 +265,5 @@ public class AccountMenu extends Activity{
 	}
 	
 	
-	public void saveToFile() throws IOException{
-		//FileOutputStream fos = openFileOutput("users", 0);
-    	//OutputStreamWriter isw = new OutputStreamWriter ( fos ) ;
-       // BufferedWriter buffw = new BufferedWriter( isw ) ;
-		prefs.edit().remove("child").commit();
-		//LinkedList<Child> tmplist = childs;
-		String tmp = "";
-		Gson gson = new Gson();
-		//childs.clear();
-		for(int i=0;i<users.length;i++){ 
-    		Iterator itr = map.keySet().iterator();
-    		if(!adapterCH.checks.contains(i)){
-				while(itr.hasNext()){
-					String k = (String)itr.next();
-					//String[] params;
-					if((users[i]).compareTo(map.get(k)) == 0){
-						String json = gson.toJson(childs.get(i));
-						tmp = tmp+"/"+json;
-//							 params = (users[i]).split(" ");
-//							 if(params.length > 1)
-//								 buffw.write(k+","+params[0]+","+params[1]);
-//							 else
-//								 buffw.write(k+","+params[0]+","+" ");
-//						     buffw.write("/");
-						}
-					}
-			}
-    	}
-		Log.d("saved after remove is ",tmp);
-		if(tmp.compareTo("") != 0)
-			prefs.edit().putString("child",tmp).commit();
-		//buffw.close();
-	}
+
 }

@@ -2,6 +2,8 @@ package com.app;
 
 import static com.app.CommonUtilities.SENDER_ID;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.Vector;
 
 import com.app.Child;
@@ -356,6 +358,8 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) { 
 	                    // continue with delete
+	                	saveToFile();
+	                	finish();
 	                }
 	             })
 	            .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -371,5 +375,20 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	        default:
 	            return super.onOptionsItemSelected(item);
 	    }
+	}
+	
+	public void saveToFile() {
+		AccountMenu.prefs.edit().remove("child").commit();
+		String tmp = "";
+		Gson gson = new Gson();
+		AccountMenu.childs.remove(AccountMenu.childPosition);
+		
+		for(int i=0;i<AccountMenu.childs.size();i++){ 
+			String json = gson.toJson(AccountMenu.childs.get(i));
+			tmp = tmp+"/"+json;
+    	}
+		Log.d("saved after remove is ",tmp);
+		if(tmp.compareTo("") != 0)
+			AccountMenu.prefs.edit().putString("child",tmp).commit();
 	}
 }
