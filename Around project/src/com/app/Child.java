@@ -19,6 +19,7 @@ public class Child implements Serializable{
 	public String mail;
 	public String id;
 	public String number;
+	public boolean activationFlag;
 	// current location information
 	public double lng;
 	public double lat;
