@@ -83,7 +83,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		viewName = (TextView) findViewById(R.id.childname);
 		lastLoc = (TextView) findViewById(R.id.lastUpdateTimestamp);
 		activationToggle = (ToggleButton) findViewById(R.id.activationToggleButton);
-		
+		activationToggle.setChecked(child.activationFlag);
 		viewName.setText(child.name);
 		lastLoc.setText(child.name+" was here");
 		
