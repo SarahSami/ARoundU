@@ -54,6 +54,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	LinearLayout routesList;
 	private TextView viewName;
 	private TextView lastLoc;
+	private ToggleButton activationToggle; 
 	
 	public ReceiveLoc locReceiver;
 	public final static String ACTION = "action!";
@@ -81,9 +82,11 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		// getting access to view elements
 		viewName = (TextView) findViewById(R.id.childname);
 		lastLoc = (TextView) findViewById(R.id.lastUpdateTimestamp);
+		activationToggle = (ToggleButton) findViewById(R.id.activationToggleButton);
 		
 		viewName.setText(child.name);
 		lastLoc.setText(child.name+" was here");
+		activationToggle.setChecked(child.activationFlag);
 		
 		childCurrentLocation = (WebView) findViewById(R.id.childCurrentMapLocation);
 		routesList = (LinearLayout) findViewById(R.id.routesList);
@@ -193,22 +196,6 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 		Button send = (Button) routeActions.findViewById(R.id.routeSendButton);
 		Button remove = (Button) routeActions.findViewById(R.id.routeDeleteButton);
-		
-		final ToggleButton toggle = (ToggleButton) findViewById(R.id.activationToggleButton);
-		
-		toggle.setOnClickListener(new OnClickListener() {
-			@Override
-	        public void onClick(View arg0) {
-				//TODO :: put in on-off list
-	            if(toggle.isChecked()){
-	            	// wrong   AccountMenu.server.gcmServer("parent="+AccountMenu.prefs.getString("id",""));
-	            	// Add to online childs
-	            }else{
-	            	// remove from online childs
-	            }
-	        }
-				
-		});
 		
 		remove.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {
@@ -390,5 +377,10 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		Log.d("saved after remove is ",tmp);
 		if(tmp.compareTo("") != 0)
 			AccountMenu.prefs.edit().putString("child",tmp).commit();
+	}
+	
+	public void toggleChildActivation(View view){
+		child.activationFlag = activationToggle.isChecked();
+		updateChildsList();
 	}
 }

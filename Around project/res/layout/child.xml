@@ -44,10 +44,11 @@
                 <ToggleButton
                     android:id="@+id/activationToggleButton"
                     style="@style/ButtonText"
-        			android:background="@drawable/button"
+        			android:background="@drawable/toggle_button"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="toggleChildActivation"
                     android:text="Start" />
 
                 <Button
