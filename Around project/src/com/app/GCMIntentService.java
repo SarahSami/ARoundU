@@ -18,6 +18,7 @@ import com.app.ChildInfoActivity;
 import com.app.WizardActivity;
 
 import com.google.android.gcm.GCMBaseIntentService;
+import com.google.gson.Gson;
 
 public class GCMIntentService extends GCMBaseIntentService {
 
@@ -70,6 +71,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 				String[] params = message.split(":");
 				message = params[0];
 				child = AccountMenu.map.get(params[1]);
+				if(child == null)
+					child = AccountMenu.map.get(params[1]+"@gmail.com");
 
 			}
 			if (message.contains(",") || message.contains("location is unknown")) {
@@ -163,7 +166,27 @@ public class GCMIntentService extends GCMBaseIntentService {
 	}
 
 	private boolean onlineChild(String child) {
-		return true;
+		String chs = AccountMenu.prefs.getString("child", "");
+		Gson gson = new Gson();
+		String [] jsons = null;
+		
+		if(chs.charAt(0) == '/')
+			chs = chs.substring(1);
+		
+		if(chs.contains("/")){
+			jsons = chs.split("/");
+		}
+		else if(chs.compareTo("") != 0){
+			jsons = new String[1];
+			jsons[0] = chs;
+		}
+		
+		for(int i=0;i<jsons.length;i++){
+		    Child c = gson.fromJson(jsons[i], Child.class);
+		    if(c.name.compareTo(child) == 0)
+		    	return c.activationFlag;
+		}
+		return false;
 	}
 
 	

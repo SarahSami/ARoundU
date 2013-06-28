@@ -86,7 +86,21 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 		viewName.setText(child.name);
 		lastLoc.setText(child.name+" was here");
-		activationToggle.setChecked(child.activationFlag);
+		
+		activationToggle.setOnClickListener(new OnClickListener() {
+
+	        @Override
+	        public void onClick(View arg0) {
+	            if(activationToggle.isChecked()){
+	            	child.activationFlag = true;
+	        		Log.d("toggle chaged",""+child.activationFlag);
+	        		
+	            }
+	            else   
+	            	child.activationFlag = false;
+	            updateChildsList();
+	        }
+	    });
 		
 		childCurrentLocation = (WebView) findViewById(R.id.childCurrentMapLocation);
 		routesList = (LinearLayout) findViewById(R.id.routesList);
@@ -379,8 +393,5 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 			AccountMenu.prefs.edit().putString("child",tmp).commit();
 	}
 	
-	public void toggleChildActivation(View view){
-		child.activationFlag = activationToggle.isChecked();
-		updateChildsList();
-	}
+	
 }
