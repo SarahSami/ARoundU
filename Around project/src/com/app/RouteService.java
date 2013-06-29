@@ -2,6 +2,7 @@ package com.app;
 
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import android.app.IntentService;
@@ -24,7 +25,7 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static String route = "";
 	   public static LinkedList <String> points   = new LinkedList<String>();;
 	   public static  LinkedList <String> dangerousRoutes = new LinkedList<String>() ;
-	   public static int greenZone = 20;
+	   public static int greenZone = 600;
 	   private static int difference = 0;
 	   public static double minLat = 0;
 	   public static double minLng = 0;
@@ -34,26 +35,38 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static Context cntx;
 	   private boolean done = false;
 	   private LocationManager locationManager;
-	   public RouteService() {
+	   
+	   public RouteService(Context _context) {
 		super("intent service");
-		locationManager = (LocationManager) cntx.getSystemService(cntx.LOCATION_SERVICE);
-	    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		findMyLocation();
+		cntx = _context;
+		
+		locationManager = (LocationManager)_context.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+		findMyLocation(_context);
 	   }
 
 
-    public void findMyLocation(){
-	    	 
-		     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		     if(location != null){
-			     lat = location.getLatitude();
-			     lng = location.getLongitude();    
-		     }
-		     else
-		    	 ChildActivity.server.gcmServer("location is unknown:"+ChildActivity.account);
-    	
-	    
-    }
+	public void findMyLocation(Context _context){
+		// trying to get working location provider
+		List<String> providers = locationManager.getAllProviders();
+		Location location = null;
+		for (String provider : providers) {
+			try{
+				location = locationManager.getLastKnownLocation(provider);
+			}catch (Exception e) {}
+			
+			if (location != null) {
+				break;
+			}
+		}
+		
+		if(location != null){
+			lat = location.getLatitude();
+			lng = location.getLongitude();    
+		}
+		else
+			ChildActivity.server.gcmServer("location is unknown:"+ChildActivity.account);
+	}
 		
 	private static  float distFrom(double lat1, double lat2, double lng1, double lng2) {
 		    double earthRadius = 3958.75;
@@ -238,7 +251,7 @@ public class RouteService extends IntentService implements LocationListener{
     	   new Timer().scheduleAtFixedRate(new TimerTask() {
     	        public void run() {
     	    		if (work && !arrived){
-    	    			findMyLocation();
+    	    			findMyLocation(cntx);
     	    			Log.d("workiiiiiinnnnggg","innnnnnn"+lat+","+lng);
     	    			if(gotLost()){
     	    				ChildActivity.server.gcmServer("is out of green zone by "+difference+" meters:"+ChildActivity.account);

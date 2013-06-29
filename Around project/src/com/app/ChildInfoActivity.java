@@ -201,7 +201,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	private View buildRouteView(final Child.Route route) {
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
-		LinearLayout routeView = (LinearLayout) inflater.inflate(R.layout.route_list_item, null);
+		final LinearLayout routeView = (LinearLayout) inflater.inflate(R.layout.route_list_item, null);
 		
 		// getting access to route views
 		TextView routeName = (TextView) routeView.findViewById(R.id.routeName);
@@ -213,6 +213,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 		remove.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {
+				routesList.removeView(routeView);
 				child.routes.remove(route);
 				updateChildsList();
 			}
