@@ -5,7 +5,7 @@ save data each child in shared preference and retrieve when view ✔
 textedit for green zone hidden then press next appears
 after adding route save it don't send it ✔
 remove child button ✔
-remove start/stop from child app >>>>
+
 
 display route in menu static routes ✔
 only clicks of 2 markers when set new route , disable new request markers ✔
@@ -19,6 +19,11 @@ save last route by parent on child manifest and use latest route  ✔
 remove marker drag and drop  ✔
 
 
+
+remove start/stop from child app >>>>
+security on child device >>>> notify parent if child not install it
+remove reference parent or child if app deleted
+add img URI to child
 
 
 

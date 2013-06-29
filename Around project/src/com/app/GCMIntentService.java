@@ -39,7 +39,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Account[] list = manager.getAccountsByType("com.google");
 		if (list.length != 0) {
 			account = list[0].name;
-//			account = account.substring(0, account.indexOf("@"));
 		}
 
 		if (type.equals("parent")) {

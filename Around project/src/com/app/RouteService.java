@@ -35,6 +35,7 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static Context cntx;
 	   private boolean done = false;
 	   private LocationManager locationManager;
+
 	   
 	   public RouteService(){
 		   super("intent service");
