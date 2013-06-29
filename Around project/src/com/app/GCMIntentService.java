@@ -129,6 +129,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 				}
 			}
 		} else {
+			if (ChildActivity.server != null) {
+				ChildActivity.server = new ServerMsgChild(context);
+			}
+			
 			Log.d("child :: ", "msg in child " + message);
 			if (message.equals("getLocation")) {
 

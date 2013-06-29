@@ -36,12 +36,27 @@ public class RouteService extends IntentService implements LocationListener{
 	   private boolean done = false;
 	   private LocationManager locationManager;
 	   
+	   public RouteService(){
+		   super("intent service");
+		   
+	   }
+	   
+	   @Override
+		public void onCreate() {
+			// TODO Auto-generated method stub
+			super.onCreate();
+			
+			cntx = getApplicationContext();
+			locationManager = (LocationManager)cntx.getSystemService(Context.LOCATION_SERVICE);
+			   
+			findMyLocation(cntx);
+		}
+	   
 	   public RouteService(Context _context) {
 		super("intent service");
 		cntx = _context;
 		
 		locationManager = (LocationManager)_context.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		findMyLocation(_context);
 	   }
 
