@@ -1,6 +1,7 @@
 package com.app;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,14 +63,19 @@ public  class MapActivity extends Activity  implements LocationListener{
 	private void getLocation() {
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		
-		// get the location from network provider or from GPS
-		if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		}else{
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+		// trying to get working location provider
+		List<String> providers = locationManager.getAllProviders();
+		Location location = null;
+		for (String provider : providers) {
+			try{
+				location = locationManager.getLastKnownLocation(provider);
+			}catch (Exception e) {}
+			
+			if (location != null) {
+				break;
+			}
 		}
 
-		Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		if(location != null){
 			lattitude = location.getLatitude();
 			longitude = location.getLongitude(); 

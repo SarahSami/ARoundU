@@ -39,7 +39,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Account[] list = manager.getAccountsByType("com.google");
 		if (list.length != 0) {
 			account = list[0].name;
-			//account = account.substring(0, account.indexOf("@"));
 		}
 
 		if (type.equals("parent")) {
@@ -132,7 +131,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 			Log.d("child :: ", "msg in child " + message);
 			if (message.equals("getLocation")) {
 
-				new RouteService();
+				new RouteService(context);
 				if (RouteService.lat != 0 && RouteService.lng != 0)
 					ChildActivity.server.gcmServer(RouteService.lat + ","+ RouteService.lng);
 			} else {
