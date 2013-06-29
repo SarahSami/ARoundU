@@ -24,7 +24,7 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static String route = "";
 	   public static LinkedList <String> points   = new LinkedList<String>();;
 	   public static  LinkedList <String> dangerousRoutes = new LinkedList<String>() ;
-	   public static int greenZone = 20;
+	   public static int greenZone = 600;
 	   private static int difference = 0;
 	   public static double minLat = 0;
 	   public static double minLng = 0;
@@ -34,11 +34,12 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static Context cntx;
 	   private boolean done = false;
 	   private LocationManager locationManager;
+	  
 	   public RouteService() {
-		super("intent service");
-		locationManager = (LocationManager) cntx.getSystemService(cntx.LOCATION_SERVICE);
-	    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-		findMyLocation();
+			super("intent service");
+			locationManager = (LocationManager) cntx.getSystemService(cntx.LOCATION_SERVICE);
+		    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+			findMyLocation();
 	   }
 
 
