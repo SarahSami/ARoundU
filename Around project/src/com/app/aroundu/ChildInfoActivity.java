@@ -55,7 +55,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	private TextView viewName;
 	private TextView lastLoc;
 	private ToggleButton activationToggle; 
-	
+	private Context context;
 	public ReceiveLoc locReceiver;
 	public final static String ACTION = "action!";
 	
@@ -66,7 +66,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		context = this;
 		setContentView(R.layout.child);
 		locReceiver = new ReceiveLoc();
         
@@ -213,9 +213,26 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		
 		remove.setOnClickListener(new Button.OnClickListener(){
 			public void onClick(View v) {
-				routesList.removeView(routeView);
-				child.routes.remove(route);
-				updateChildsList();
+				new AlertDialog.Builder(context)
+	            .setTitle("Delete Route")
+	            .setIcon(R.drawable.icon)
+	            .setMessage("Are you sure you want to delete this route?")
+	            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) { 
+	                    // continue with delete
+	                	routesList.removeView(routeView);
+	    				child.routes.remove(route);
+	    				updateChildsList();
+	                }
+	             })
+	            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+	                public void onClick(DialogInterface dialog, int which) { 
+	                    // do nothing
+	                }
+	             })
+	             .show();
+				
+				
 			}
 		});
 		
@@ -356,6 +373,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	        case R.id.delete_child:
 	        	new AlertDialog.Builder(this)
 	            .setTitle("Delete Child")
+	            .setIcon(R.drawable.icon)
 	            .setMessage("Are you sure you want to delete this child?")
 	            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int which) { 

@@ -62,13 +62,6 @@ public class AddActivity extends Activity {
 				c.name = fname;
 				c.number = num;
 				saveChild(c);
-//				String FILENAME = "users";
-//				FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_APPEND);
-//				OutputStreamWriter isw = new OutputStreamWriter(fos);
-//				BufferedWriter buffw = new BufferedWriter(isw);
-//				buffw.write(mail + "," + fname + "," + num);
-//				buffw.write("/");
-//				buffw.close();
 			}
 			finish();
 		}

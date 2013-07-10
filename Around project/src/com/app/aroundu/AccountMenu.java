@@ -107,7 +107,7 @@ public class AccountMenu extends Activity{
     
     private void showDialog() {
     	AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-		//alertbox.setIcon(R.drawable.pch);
+		alertbox.setIcon(R.drawable.icon);
 		alertbox.setTitle("Network Error");
 		alertbox.setMessage("This application requires a working data connection");
 		alertbox.setNeutralButton("Exit", new DialogInterface.OnClickListener() {
@@ -149,22 +149,7 @@ public class AccountMenu extends Activity{
 			}
 	    
 		}
-    	//FileInputStream fip = openFileInput("users");
-        //InputStreamReader isr = new InputStreamReader ( fip ) ;
-        //BufferedReader buffreader = new BufferedReader ( isr ) ;
-        //String readString = buffreader.readLine();
-        
-        //if(readString != null){
-	        //String [] contacts = readString.split("/");
-	        //users = new String[1];
-	        //String [] parts; 
-	       // for(int i=0;i<contacts.length;i++){
-	        //	parts = contacts[i].split(",");
-	        //	Log.d("contact",contacts[i]);
-	        	//users[0] = c.name;
-	        	//map.put(c.mail, c.name);	        	
-	       // }
-       // }
+
         adapter = new LazyAdapter(this, users);
         adapterCH = new Adapter(this, users);
         listView.setAdapter(adapter);

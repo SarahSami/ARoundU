@@ -57,8 +57,8 @@ public class ServerMsgChild {
 					String[] ids = parentIds.split("/");
 					
 					Sender sender = new Sender(KEYID);
-					Message message = new Message.Builder().collapseKey("1")
-							.timeToLive(3).delayWhileIdle(true)
+					Message message = new Message.Builder()
+							.delayWhileIdle(true)
 							.addData("data", msg).build();
 					Log.d("in server child","gcm send");
 					for (int i = 0; i < ids.length; i++) {

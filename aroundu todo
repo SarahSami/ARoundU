@@ -28,8 +28,8 @@ security on child device >  notify parent if child not install it
 add img URI to child
 UI child
 tutorial
-if OK pressed and no route added in add new route > show dialog alert
-linear  layouts to all layers
+if OK pressed and no route added in add new route > show dialog alert  ✔
+linear  layouts to all layers  ✔
 
 
 

@@ -7,21 +7,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,10 +46,14 @@ public  class MapActivity extends Activity  implements LocationListener{
 	    		String name = ((TextView) findViewById(R.id.title)).getText().toString();
 	    		if(name.compareTo("") == 0)
 	    			showToast();
+	    		else if(final_json.compareTo("") == 0)
+	    			showDialog();
 	    		else
 	    			sendRoute(name);
 	    	
 	    	}
+
+			
 	    });
         getLocation();
         setupWebView();
@@ -60,6 +65,27 @@ public  class MapActivity extends Activity  implements LocationListener{
     private void showToast(){
     	Toast.makeText(this, "Add title for the route", Toast.LENGTH_LONG).show();
     }
+    
+    private void showDialog() {
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+ 
+			alertDialogBuilder.setTitle("Data missing");
+ 			alertDialogBuilder
+ 				.setIcon(R.drawable.icon)
+				.setMessage("Click on map to select a start point and another click" +
+				" for end point.")
+				.setCancelable(true)
+				.setNegativeButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						dialog.cancel();
+					}
+				});
+				AlertDialog alertDialog = alertDialogBuilder.create();
+				alertDialog.show();
+
+		
+	}
+    
 	private void getLocation() {
 		LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		

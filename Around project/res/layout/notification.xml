@@ -29,7 +29,7 @@
             android:layout_alignTop="@+id/imageView1"
             android:layout_marginLeft="45dp"
             android:textSize="15sp"
-            android:text = "sarah samiii"
+            android:text = "ARoundU"
             android:textStyle="bold" />
 
         <TextView

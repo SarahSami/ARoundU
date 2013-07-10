@@ -84,8 +84,6 @@ public class ServerMsgParent {
 
 				Sender sender = new Sender(KEYID);
 				Message message = new Message.Builder()
-						.collapseKey("1")
-						.timeToLive(3)
 						.delayWhileIdle(true)
 						.addData("data",msg)
 						.build();

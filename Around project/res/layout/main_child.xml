@@ -1,49 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/bgb1"
     android:orientation="vertical" >
- <Button 
-       android:text="  Start" 
-       android:id="@+id/button1" 
-       android:layout_width="130dp"
-	   android:layout_height="50dp"
-       android:drawableRight="@drawable/player_start"
-  	   android:gravity="left|center_vertical"
-	   android:layout_x="90dp"
-	   android:layout_y="63dp"  
-	   android:background="@drawable/button" 
-       style="@style/ButtonText">
- </Button>
- 
-   <Button 
-       android:text="Guide Me" 
-       android:id="@+id/guide" 
-       android:layout_width="130dp"
-	   android:layout_height="50dp"
-	   android:drawableRight="@drawable/guide"
-  	   android:gravity="left|center_vertical"
-	   android:layout_x="90dp"
-	   android:layout_y="152dp"
-       android:background="@drawable/button" 
-       style="@style/ButtonText">
-       
-   </Button>
-   
-   <Button 
-       android:text="Call me" 
-       android:id="@+id/contact" 
-       android:layout_width="130dp"
-	   android:layout_height="50dp"
-	   android:drawableRight="@drawable/help"
-  	   android:gravity="left|center_vertical"
-	   android:layout_x="90dp"
-	   android:layout_y="241dp"
-       android:background="@drawable/button" 
-       style="@style/ButtonText">
-       
-   </Button>
 
    
    <!--  <ImageView
@@ -53,5 +13,40 @@
         android:layout_x="0dp"
 	    android:layout_y="365dp"
         android:src="@drawable/family4" /> -->
+
+   <Button
+       android:id="@+id/button1"
+       style="@style/ButtonText"
+       android:layout_width="130dp"
+       android:layout_height="50dp"
+       android:layout_above="@+id/contact"
+       android:layout_centerHorizontal="true"
+       android:layout_marginBottom="31dp"
+       android:background="@drawable/button"
+       android:drawableRight="@drawable/player_start"
+       android:text="  Start" />
+
+   <Button
+       android:id="@+id/guide"
+       style="@style/ButtonText"
+       android:layout_width="130dp"
+       android:layout_height="50dp"
+       android:layout_alignLeft="@+id/button1"
+       android:layout_below="@+id/contact"
+       android:layout_marginTop="58dp"
+       android:background="@drawable/button"
+       android:drawableRight="@drawable/guide"
+       android:text="Guide Me" />
+
+   <Button
+       android:id="@+id/contact"
+       style="@style/ButtonText"
+       android:layout_width="130dp"
+       android:layout_height="50dp"
+       android:layout_alignLeft="@+id/button1"
+       android:layout_centerVertical="true"
+       android:background="@drawable/button"
+       android:drawableRight="@drawable/help"
+       android:text="Call me" />
     
-</AbsoluteLayout>
+</RelativeLayout>

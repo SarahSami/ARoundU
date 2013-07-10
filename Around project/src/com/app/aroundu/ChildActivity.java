@@ -165,7 +165,7 @@ public class ChildActivity extends Activity {
 
     private void showDialog() {
     	AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
-		//alertbox.setIcon(R.drawable.icon);
+		alertbox.setIcon(R.drawable.icon);
 		alertbox.setTitle("Network error");
 		alertbox.setMessage("This application requires a working data connection");
 		alertbox.setNeutralButton("Exit", new DialogInterface.OnClickListener() {
