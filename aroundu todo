@@ -1,8 +1,6 @@
 static routes menu , way to home , to club ,to ✔
 choosing different route rather than shortest ✔
-
 save data each child in shared preference and retrieve when view ✔
-textedit for green zone hidden then press next appears
 after adding route save it don't send it ✔
 remove child button ✔
 
@@ -20,14 +18,22 @@ remove marker drag and drop  ✔
 
 
 
-remove start/stop from child app >>>>
-security on child device >>>> notify parent if child not install it
+textedit for green zone hidden then press next appears
 remove reference parent or child if app deleted
+Routes general for all childs > UI
+
+
+remove start/stop from child app 
+security on child device >  notify parent if child not install it
 add img URI to child
+UI child
+tutorial
+if OK pressed and no route added in add new route > show dialog alert
+linear  layouts to all layers
 
 
 
-refactor code
+refactor code > indentation 
 
 
 
