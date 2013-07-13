@@ -13,6 +13,7 @@ import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -25,9 +26,9 @@ public class ServerMsgParent {
 	private String childId = "";
 	private String KEYID = "AIzaSyCGiT9NZqikYmkhVWhnX8RGjFwGx7dkKbA";
 	
-	Context context;
+	Activity context;
 	
-	public ServerMsgParent(Context cnt) {
+	public ServerMsgParent(Activity cnt) {
 		this.context = cnt;
 		failureToast = Toast.makeText(context, "Unable to send!", Toast.LENGTH_LONG);
 		successToast = Toast.makeText(context, "sent!", Toast.LENGTH_LONG);
@@ -38,45 +39,38 @@ public class ServerMsgParent {
 	}
 
 	public String postMsg(final String msg) {
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					HttpClient client = new DefaultHttpClient();
-					String postURL = "http://androidc2dm.herokuapp.com/" + msg;
-					HttpGet post = new HttpGet(postURL);
-					HttpResponse responsePOST = client.execute(post);
-					HttpEntity resEntity = responsePOST.getEntity();
-					if (resEntity != null) {
-						res = EntityUtils.toString(resEntity);
-						Log.i("RESPONSE : ", res);
-						if (res.contains("Error")) {
-							// Toast.makeText(cont, "Network Error on child device" , Toast.LENGTH_LONG).show();
-						} else if (msg.contains("first_register")) {
-							if (res.length() != 2) {
-								res = res.split(":")[1];
-								res = res.replace("\"", "");
-								res = res.substring(0, res.length() - 1);
-								childId = res;
-							}
-							gcmServer("parent="	+ AccountMenu.prefs.getString("id", ""));
-						} else if (res.contains("id")) {
-							if (res.length() != 2) {
-								res = res.split(":")[1];
-								res = res.replace("\"", "");
-								res = res.substring(0, res.length() - 1);
-								childId = res;
-								gcmServer("getLocation");
-							}
-						}
+		try {
+			HttpClient client = new DefaultHttpClient();
+			String postURL = "http://androidc2dm.herokuapp.com/" + msg;
+			HttpGet post = new HttpGet(postURL);
+			HttpResponse responsePOST = client.execute(post);
+			HttpEntity resEntity = responsePOST.getEntity();
+			if (resEntity != null) {
+				res = EntityUtils.toString(resEntity);
+				Log.i("RESPONSE : ", res);
+				if (res.contains("Error")) {
+					// Toast.makeText(cont, "Network Error on child device" , Toast.LENGTH_LONG).show();
+				} else if (msg.contains("first_register")) {
+					if (res.length() != 2) {
+						res = res.split(":")[1];
+						res = res.replace("\"", "");
+						res = res.substring(0, res.length() - 1);
+						childId = res;
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					gcmServer("parent="	+ AccountMenu.prefs.getString("id", ""));
+				} else if (res.contains("id")) {
+					if (res.length() != 2) {
+						res = res.split(":")[1];
+						res = res.replace("\"", "");
+						res = res.substring(0, res.length() - 1);
+						childId = res;
+						gcmServer("getLocation");
+					}
 				}
 			}
-		}).start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 
@@ -93,7 +87,12 @@ public class ServerMsgParent {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mDialog.show();
+//			context.runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+					mDialog.show();
+//				}
+//			});
 		}
 
 		@Override
@@ -122,7 +121,12 @@ public class ServerMsgParent {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 
-			mDialog.dismiss();
+//			context.runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+					mDialog.dismiss();
+//				}
+//			});
 			
 			if (result)
 				successToast.show();
