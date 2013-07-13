@@ -1,9 +1,18 @@
 package com.app.aroundu;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Vector;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.util.Pair;
 
@@ -91,5 +100,23 @@ public class Child implements Serializable{
 	 * */
 	public void save(){
 		// TODO: implement it
+	}
+	
+	public static void saveChildIcon(Context context, String name, Bitmap icon) throws IOException{
+		FileOutputStream out = context.openFileOutput(name + "_icon", Context.MODE_PRIVATE);
+		
+		icon.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		
+		out.flush();
+		out.close();
+	}
+	
+	public static Bitmap loadChildIconBitmap(Context context, String name){
+		try{
+			FileInputStream iconStream = context.openFileInput(name + "_icon");
+			return BitmapFactory.decodeStream(iconStream);
+		}catch (FileNotFoundException e) {
+			return null;
+		}
 	}
 }

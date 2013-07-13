@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -56,6 +58,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	private TextView lastLoc;
 	private ToggleButton activationToggle; 
 	private Context context;
+	private QuickContactBadge childIcon;
 	public ReceiveLoc locReceiver;
 	public final static String ACTION = "action!";
 	
@@ -83,9 +86,17 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		viewName = (TextView) findViewById(R.id.childname);
 		lastLoc = (TextView) findViewById(R.id.lastUpdateTimestamp);
 		activationToggle = (ToggleButton) findViewById(R.id.activationToggleButton);
+		childIcon = (QuickContactBadge) findViewById(R.id.childIcon);
+		
 		activationToggle.setChecked(child.activationFlag);
 		viewName.setText(child.name);
 		lastLoc.setText(child.name+" was here");
+		
+		Bitmap icon = Child.loadChildIconBitmap(this, child.name);
+		if (icon != null) {
+			childIcon.setMode(ContactsContract.QuickContact.MODE_SMALL);
+			childIcon.setImageBitmap(icon);
+		}
 		
 		activationToggle.setOnClickListener(new OnClickListener() {
 

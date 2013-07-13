@@ -1,14 +1,22 @@
 package com.app.aroundu;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import com.google.gson.Gson;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
+import android.widget.QuickContactBadge;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +25,8 @@ public class AddActivity extends Activity {
 	TextView nameView;
 	TextView emailView;
 	TextView numberView;
+	
+	Bitmap childIcon = null;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -32,6 +42,19 @@ public class AddActivity extends Activity {
 		emailView.setText(i.getStringExtra("email"));
 		nameView.setText(i.getStringExtra("name"));
 		numberView.setText(i.getStringExtra("phone"));
+		
+		if (i.getStringExtra("uri") != null) {
+			Uri contactUri = Uri.parse(i.getStringExtra("uri"));
+			
+			InputStream childIconStream = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), contactUri);
+			
+			if(childIconStream != null){
+				childIcon = BitmapFactory.decodeStream(childIconStream);
+				QuickContactBadge b = (QuickContactBadge) findViewById(R.id.contactIcon);
+				b.setMode(ContactsContract.QuickContact.MODE_SMALL);
+				b.setImageBitmap(childIcon);
+			}
+		}
 	}
 	
 	public void addChild(View view){
@@ -61,6 +84,12 @@ public class AddActivity extends Activity {
 				c.mail = mail;
 				c.name = fname;
 				c.number = num;
+				
+				// save child icon if exists
+				if (childIcon != null) {
+					Child.saveChildIcon(this, c.name, childIcon);
+				}
+				
 				saveChild(c);
 			}
 			finish();
@@ -81,6 +110,5 @@ public class AddActivity extends Activity {
 		}
 	    	
 	}
-
 	
 }
