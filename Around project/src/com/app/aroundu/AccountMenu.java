@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Hashtable;
@@ -19,17 +20,21 @@ import com.google.gson.Gson;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.provider.ContactsContract.Contacts;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -173,8 +178,10 @@ public class AccountMenu extends Activity{
 
 		if(reqCode == PICK_CONTACT){
 			String displayName = ""; String emailAddress = ""; String phoneNumber = "";
+			Uri contactData = null;
+
 			if (resultCode == Activity.RESULT_OK){
-				Uri contactData = data.getData();
+				contactData = data.getData();
 				ContentResolver cr = getContentResolver();
 				Cursor c = managedQuery(contactData, null, null, null, null);
 				
@@ -188,7 +195,7 @@ public class AccountMenu extends Activity{
 					Cursor emails = cr.query(Email.CONTENT_URI,null,Email.CONTACT_ID + " = " + id, null, null);
 					while (emails.moveToNext()) { 
 						emailAddress = emails.getString(emails.getColumnIndex(Email.DATA));
-						if (emailAddress.substring(emailAddress.indexOf("@")).equalsIgnoreCase("@gmail.com")) {
+						if (emailAddress.contains("@") && emailAddress.substring(emailAddress.indexOf("@")).equalsIgnoreCase("@gmail.com")) {
 							break;
 						}else{
 							emailAddress = "";
@@ -212,10 +219,13 @@ public class AccountMenu extends Activity{
 			i.putExtra("name", displayName);
 			i.putExtra("phone", phoneNumber);
 			i.putExtra("email", emailAddress);
+			
+			if(contactData != null)
+				i.putExtra("uri", contactData.toString());
 			startActivity(i);
 		}
 	}
-
+	
 //	public void removeChild(View v){
 //		if(users == null)
 //			return;

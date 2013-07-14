@@ -9,6 +9,12 @@
     android:paddingRight="20dp"
     android:orientation="vertical" >
 
+    <QuickContactBadge
+        android:id="@+id/contactIcon"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -52,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="e.g. 01286796426"
+            android:hint="e.g. 0123456789"
             android:inputType="number" >
         </EditText>
 
@@ -63,8 +69,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="30dp" >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -89,7 +94,7 @@
     <Button
         android:id="@+id/done"
         style="@style/ButtonText"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/button"
         android:onClick="addChild"
         android:text="done"
