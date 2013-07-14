@@ -61,10 +61,9 @@ public class RouteService extends IntentService implements LocationListener{
 		findMyLocation(_context);
 	   }
 
-
 	public void findMyLocation(Context _context){
 		// trying to get working location provider
-		List<String> providers = locationManager.getAllProviders();
+		String[] providers = {LocationManager.GPS_PROVIDER, LocationManager.PASSIVE_PROVIDER, LocationManager.NETWORK_PROVIDER};
 		Location location = null;
 		for (String provider : providers) {
 			try{

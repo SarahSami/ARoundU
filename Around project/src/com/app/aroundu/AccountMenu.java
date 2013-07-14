@@ -32,6 +32,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
@@ -63,7 +64,7 @@ public class AccountMenu extends Activity{
         	 showDialog();
         }else{
         	setContentView(R.layout.account);
-        	prefs = WizardActivity.prefs;
+        	prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         	server = new ServerMsgParent(this);
         	GCMRegistrar.checkDevice(this);
      		GCMRegistrar.checkManifest(this);

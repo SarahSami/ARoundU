@@ -16,7 +16,7 @@ import android.widget.RadioButton;
 
 public class WizardActivity extends Activity {
 
-	public static SharedPreferences prefs;
+	private static SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
