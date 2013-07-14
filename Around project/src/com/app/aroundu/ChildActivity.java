@@ -18,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -49,7 +50,7 @@ public class ChildActivity extends Activity {
         if (ni == null) {
         	 showDialog();
         }
-         prefs = WizardActivity.prefs;
+         prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
          context = this;        
          RouteService.cntx= context;
          super.onCreate(savedInstanceState);
@@ -94,7 +95,7 @@ public class ChildActivity extends Activity {
          help.setOnClickListener(new Button.OnClickListener(){
 
  			public void onClick(View v) {
- 				server.gcmServer("needs for help.please contact him:"+account);
+ 				server.sendHelpMeMessage("needs for help.please contact him:"+account);
  			}
          	 
           });

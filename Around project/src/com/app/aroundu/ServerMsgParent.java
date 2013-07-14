@@ -87,12 +87,7 @@ public class ServerMsgParent {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-//			context.runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-					mDialog.show();
-//				}
-//			});
+			mDialog.show();
 		}
 
 		@Override
@@ -121,12 +116,7 @@ public class ServerMsgParent {
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
 
-//			context.runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-					mDialog.dismiss();
-//				}
-//			});
+			mDialog.dismiss();
 			
 			if (result)
 				successToast.show();

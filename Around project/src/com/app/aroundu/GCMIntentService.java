@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -31,11 +32,18 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private int id = 0;
 	public static String account;
 	public static String regId;
-	private String type = WizardActivity.prefs.getString("user", "");
+	private String type;
+
+	@Override
+	public void onCreate() {
+		super.onCreate();
+		type = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("user", "");
+	}
 
 	@Override
 	protected void onRegistered(Context context, String registrationId) {
 		Log.d("registered", "on Registered");
+		
 		AccountManager manager = (AccountManager) context.getSystemService(context.ACCOUNT_SERVICE);
 		Account[] list = manager.getAccountsByType("com.google");
 		if (list.length != 0) {
@@ -131,7 +139,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				}
 			}
 		} else {
-			if (ChildActivity.server != null) {
+			if (ChildActivity.server == null) {
 				ChildActivity.server = new ServerMsgChild(context);
 			}
 			
