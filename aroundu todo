@@ -23,13 +23,19 @@ remove reference parent or child if app deleted
 Routes general for all childs > UI
 
 
-remove start/stop from child app 
-security on child device >  notify parent if child not install it
-add img URI to child
+
+add img URI to child  ✔ > if no image for contact
 UI child
-tutorial  ✔ > change location help button ?
+gps,passive,network
+try device test and call center > err notification
+
+
+
+security on child device >  notify parent if child not install it
+tutorial  ✔ > add help in menu too
 if OK pressed and no route added in add new route > show dialog alert  ✔
 linear  layouts to all layers  ✔
+check before add multiple parent
 
 
 
