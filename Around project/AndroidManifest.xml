@@ -66,6 +66,10 @@
             android:name="com.app.aroundu.ChildInfoActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.app.aroundu.TutorialActivity"
+            android:label="@string/app_name">
+        </activity>
 
         
         

@@ -390,7 +390,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	             .show();
 	            return true;
 	        case R.id.child_help:
-//	            showHelp();
+	            showHelp();
 	            return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
@@ -410,6 +410,12 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		Log.d("saved after remove is ",tmp);
 		if(tmp.compareTo("") != 0)
 			AccountMenu.prefs.edit().putString("child",tmp).commit();
+	}
+	
+	private void showHelp() {
+		finish();
+		Intent i = new Intent(this,TutorialActivity.class);
+		startActivity(i);
 	}
 	
 	
