@@ -96,6 +96,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		if (icon != null) {
 			childIcon.setMode(ContactsContract.QuickContact.MODE_SMALL);
 			childIcon.setImageBitmap(icon);
+			childIcon.setEnabled(false);
 		}
 		
 		activationToggle.setOnClickListener(new OnClickListener() {

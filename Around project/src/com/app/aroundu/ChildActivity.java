@@ -85,8 +85,7 @@ public class ChildActivity extends Activity {
 		} else {
 			started = true;
 			st.setText("Stop");
-			st.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-					R.drawable.button_blue_stop, 0);
+			st.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.button_blue_stop, 0);
 		}
 		
 		guide.setOnClickListener(new Button.OnClickListener() {
@@ -111,8 +110,7 @@ public class ChildActivity extends Activity {
 				if (!started) {
 					String rt = ChildActivity.prefs.getString("route", "");
 					if (rt.compareTo("") == 0) {
-						Toast.makeText(context, "No route specified",
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(context, "No route specified", Toast.LENGTH_LONG).show();
 					} else {
 						started = true;
 						start();
