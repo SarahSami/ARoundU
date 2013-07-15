@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -37,16 +39,29 @@ public class ServerMsgParent {
 		mDialog.setMessage("sending ...");
 		mDialog.setCancelable(false);
 	}
-
-	public String postMsg(final String msg) {
-		try {
+	
+	class PostMessageAsyncTask extends AsyncTask<String, Float, String>{
+		String msg;
+		
+		@Override
+		protected String doInBackground(String... params) {
+			msg = params[0];
 			HttpClient client = new DefaultHttpClient();
 			String postURL = "http://androidc2dm.herokuapp.com/" + msg;
 			HttpGet post = new HttpGet(postURL);
-			HttpResponse responsePOST = client.execute(post);
-			HttpEntity resEntity = responsePOST.getEntity();
-			if (resEntity != null) {
-				res = EntityUtils.toString(resEntity);
+			HttpResponse responsePOST = null;
+
+			try {
+				responsePOST = client.execute(post);
+				return EntityUtils.toString(responsePOST.getEntity());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
+		protected void onPostExecute(String res) {
+			if (res != null) {
 				Log.i("RESPONSE : ", res);
 				if (res.contains("Error")) {
 					// Toast.makeText(cont, "Network Error on child device" , Toast.LENGTH_LONG).show();
@@ -57,25 +72,26 @@ public class ServerMsgParent {
 						res = res.substring(0, res.length() - 1);
 						childId = res;
 					}
-					gcmServer("parent="	+ AccountMenu.prefs.getString("id", ""));
+					new ServerMessageAsyncTask(false).execute("parent="	+ AccountMenu.prefs.getString("id", ""));
 				} else if (res.contains("id")) {
 					if (res.length() != 2) {
 						res = res.split(":")[1];
 						res = res.replace("\"", "");
 						res = res.substring(0, res.length() - 1);
 						childId = res;
-						gcmServer("getLocation");
+						new ServerMessageAsyncTask(false).execute("getLocation");
 					}
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return res;
+	};
+	
+	public void postMsg(final String msg) {
+		new PostMessageAsyncTask().execute(msg);
 	}
 
 	public void gcmServer(String msg) {
-		new ServerMessageAsyncTask().execute(new String[]{msg});
+		new ServerMessageAsyncTask(true).execute(msg);
 	}
 
 	
@@ -84,10 +100,18 @@ public class ServerMsgParent {
 	Toast successToast;
 
 	class ServerMessageAsyncTask extends AsyncTask<String, Float, Boolean> {
+		private boolean showNoticications = false;
+		
+		public ServerMessageAsyncTask(boolean _showNoticications) {
+			this.showNoticications = _showNoticications;
+		}
+		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mDialog.show();
+			if (showNoticications) {
+				mDialog.show();
+			}
 		}
 
 		@Override
@@ -115,13 +139,14 @@ public class ServerMsgParent {
 		@Override
 		protected void onPostExecute(Boolean result) {
 			super.onPostExecute(result);
-
-			mDialog.dismiss();
-			
-			if (result)
-				successToast.show();
-			else
-				failureToast.show();
+			if (showNoticications) {
+				mDialog.dismiss();
+				
+				if (result)
+					successToast.show();
+				else
+					failureToast.show();
+			}
 		}
 		
 	}
