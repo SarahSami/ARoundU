@@ -21,10 +21,10 @@ remove marker drag and drop  ✔
 textedit for green zone hidden then press next appears
 remove reference parent or child if app deleted
 Routes general for all childs > UI
+when child call parent,select a parent to call.
 
 
-
-add img URI to child  ✔ > if no image for contact
+add img URI to child , if no image for contact ✔
 UI child
 gps,passive,network
 try device test and call center > err notification
@@ -32,10 +32,10 @@ try device test and call center > err notification
 
 
 security on child device >  notify parent if child not install it
-tutorial  ✔ > add help in menu too
+tutorial  ✔ > add help in menu too ✔
 if OK pressed and no route added in add new route > show dialog alert  ✔
 linear  layouts to all layers  ✔
-check before add multiple parent
+check before add multiple parent  ✔
 
 
 

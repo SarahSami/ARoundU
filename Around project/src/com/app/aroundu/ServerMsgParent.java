@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -57,7 +58,10 @@ public class ServerMsgParent {
 						res = res.substring(0, res.length() - 1);
 						childId = res;
 					}
-					gcmServer("parent="	+ AccountMenu.prefs.getString("id", ""));
+					String account = PreferenceManager.getDefaultSharedPreferences(this.context).getString("account", "");
+					gcmServer("parent="	+ AccountMenu.prefs.getString("id", "")+"&account="+account);
+					Log.d("Account",":: "+account);
+							
 				} else if (res.contains("id")) {
 					if (res.length() != 2) {
 						res = res.split(":")[1];

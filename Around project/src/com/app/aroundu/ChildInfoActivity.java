@@ -424,7 +424,6 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	}
 	
 	private void showHelp() {
-		finish();
 		Intent i = new Intent(this,TutorialActivity.class);
 		startActivity(i);
 	}

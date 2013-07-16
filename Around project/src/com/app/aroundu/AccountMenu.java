@@ -37,6 +37,9 @@ import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Email;
 import android.provider.ContactsContract.Contacts;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -227,25 +230,31 @@ public class AccountMenu extends Activity{
 		}
 	}
 	
-//	public void removeChild(View v){
-//		if(users == null)
-//			return;
-//		
-//		if(listView.getAdapter() == adapterCH)
-//			listView.setAdapter(adapter);
-//		else
-//			listView.setAdapter(adapterCH);
-//
-//		if(adapterCH.checks.size() > 0){
-//	    	try {
-//				saveToFile();
-//				loadData();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//	    	adapterCH.checks.clear();
-//	    }
-//	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu, menu);
+	    return true;
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle item selection
+	    switch (item.getItemId()) {
+	        case R.id.child_help:
+	            showHelp();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	private void showHelp() {
+		Intent i = new Intent(this,TutorialActivity.class);
+		startActivity(i);
+	}
+	
 	
 	@Override
 	protected void onResume() {

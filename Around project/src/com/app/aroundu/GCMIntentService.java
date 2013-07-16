@@ -17,7 +17,6 @@ import com.app.aroundu.AccountMenu;
 import com.app.aroundu.ChildActivity;
 import com.app.aroundu.ChildInfoActivity;
 import com.app.aroundu.RouteService;
-import com.app.aroundu.WizardActivity;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.gson.Gson;
@@ -157,14 +156,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 					ChildActivity.prefs.edit().putString("route", "").commit();
 				}
 				else if (message.contains("parent=")) {
-					String rid = message.substring(7);
+					String [] params = message.split("&");
+					String rid = params[0].substring(7);
+					String ac = params[1].substring(8);
+					showDialog(context,ac,rid);
 					Log.d("parent id", rid);
-					if (!ChildActivity.prefs.contains("id"))
-						ChildActivity.prefs.edit().putString("id", "").commit();
-
-					String rt = ChildActivity.prefs.getString("id", "");
-					if (!rt.contains(rid))
-						ChildActivity.prefs.edit().putString("id", rt + "/" + rid).commit();
+					Log.d("parent account",ac);
+					
 				} else if(message.contains("new route")){
 					message = message.substring(10);
 					String name = message.substring(0,message.indexOf(':'));
@@ -177,6 +175,17 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 			}
 		}
+	}
+
+	private void showDialog(Context context,String ac,final String rid) {
+		Intent i = new Intent(this,DialogActivity.class);
+		i.putExtra("id", rid);
+		i.putExtra("account", ac);
+		i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(i);
+		
+		
+		
 	}
 
 	private boolean onlineChild(String child) {

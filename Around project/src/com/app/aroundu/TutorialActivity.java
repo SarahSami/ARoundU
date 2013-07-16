@@ -3,6 +3,7 @@ package com.app.aroundu;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 public class TutorialActivity extends Activity {
 	
@@ -12,7 +13,7 @@ public class TutorialActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		type = WizardActivity.prefs.getString("user", "");
+		type = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("user", "");
 		if(type.equals("parent"))
 			setContentView(R.layout.tutorial_parent);
 		else

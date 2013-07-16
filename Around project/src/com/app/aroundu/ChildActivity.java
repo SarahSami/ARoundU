@@ -8,6 +8,8 @@ import static com.app.aroundu.CommonUtilities.SENDER_ID;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.AlertDialog.Builder;
+import android.app.PendingIntent.CanceledException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -96,6 +98,7 @@ public class ChildActivity extends Activity {
 
  			public void onClick(View v) {
  				server.sendHelpMeMessage("needs for help.please contact him:"+account);
+ 				showDialogMsg("Notification sent to parents");
  			}
          	 
           });
@@ -104,7 +107,8 @@ public class ChildActivity extends Activity {
         		   if(!started){
         			   String rt = ChildActivity.prefs.getString("route","");
         			   if(rt.compareTo("") == 0){
-        		    		Toast.makeText(context, "No route specified", Toast.LENGTH_LONG).show();
+        				   showDialogMsg("No route specified");
+        		    		//Toast.makeText(context, "No route specified", Toast.LENGTH_LONG).show();
         			   }else{
         				    started = true;
         		    		start();
@@ -121,6 +125,20 @@ public class ChildActivity extends Activity {
         	   }});
      
          
+    }
+    
+    private void showDialogMsg(String msg){
+    	Builder d = new AlertDialog.Builder(this);
+		d.setIcon(R.drawable.icon).setTitle("ARoundU");
+		d.setMessage(msg);
+		d.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+		public void onClick(DialogInterface arg0, int arg1) {
+			
+			finish();
+		}
+		});
+		d.create();
+		d.show();
     }
     
     private void stop(){
@@ -150,7 +168,8 @@ public class ChildActivity extends Activity {
     
     private void guide(){
       if(RouteService.points.size() == 0)
-    		Toast.makeText(context, "No route specified yet", Toast.LENGTH_LONG).show();
+    	  showDialogMsg("No route specified yet");
+    		//Toast.makeText(context, "No route specified yet", Toast.LENGTH_LONG).show();
       else {
     	  Intent i = new Intent(this, GuideView.class);
           startActivity(i);
