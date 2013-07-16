@@ -80,8 +80,14 @@ public class GCMIntentService extends GCMBaseIntentService {
 				String[] params = message.split(":");
 				message = params[0];
 				child = AccountMenu.map.get(params[1]);
-				if(child == null)
+				if(child == null){
 					child = AccountMenu.map.get(params[1]+"@gmail.com");
+					if(child == null){
+						String m = params[1].substring(0,params[1].indexOf('@'));
+						child = AccountMenu.map.get(m);
+					}
+						
+				}
 
 			}
 			if (message.contains(",") || message.contains("location is unknown")) {

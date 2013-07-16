@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -254,6 +255,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 	    		for(int i=1;i<route.steps.size();i++)
 	    			points = points+"/"+route.steps.get(i).first+","+route.steps.get(i).second;
 				AccountMenu.server.gcmServer("new route:"+route.name+":"+points);
+				showDialogMsg("sent ");
 			}
 		});
 		// setting route actions (send, edit and delete) and routeSteps viewer to be invisible
@@ -290,7 +292,21 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		return routeView;
 	}
 	
-	
+	  private void showDialogMsg(String msg){
+	    	Builder d = new AlertDialog.Builder(this);
+			d.setIcon(R.drawable.icon).setTitle("ARoundU");
+			d.setMessage(msg);
+			d.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				
+				finish();
+			}
+			});
+			d.create();
+			d.show();
+	  }
+	  
+	  
 	private void callChild() {
 		String num = child.number;
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
