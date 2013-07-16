@@ -13,6 +13,8 @@ import java.util.Vector;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.util.Pair;
 
@@ -29,7 +31,7 @@ public class Child implements Serializable{
 	public String mail;
 	public String id;
 	public String number;
-	public boolean activationFlag;
+	public boolean activationFlag = true;
 	// current location information
 	public double lng;
 	public double lat;
@@ -116,7 +118,8 @@ public class Child implements Serializable{
 			FileInputStream iconStream = context.openFileInput(name + "_icon");
 			return BitmapFactory.decodeStream(iconStream);
 		}catch (FileNotFoundException e) {
-			return null;
+			Drawable iconDrawable = context.getResources().getDrawable(R.drawable.contact);
+			return ((BitmapDrawable)iconDrawable).getBitmap();
 		}
 	}
 }
