@@ -89,7 +89,7 @@ public class ServerMsgChild {
 		protected Boolean doInBackground(String... params) {
 			final String msg = params[0];
 			try {
-				Log.d("idd>>>>>",""+parentIds);
+				Log.d("idd>>>>>",""+parentIds);  
 				String[] ids = parentIds.split("/");
 				
 				Sender sender = new Sender(KEYID);
@@ -99,8 +99,10 @@ public class ServerMsgChild {
 				Log.d("in server child","gcm send");
 				for (int i = 0; i < ids.length; i++) {
 					Log.d("id", ids[i]);
-					Result result = sender.send(message, ids[i], 1);
-					Log.d("debug", "result from send: " + result);
+					if(!ids[i].equals("")){
+						Result result = sender.send(message, ids[i], 1);
+						Log.d("debug", "result from send: " + result);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

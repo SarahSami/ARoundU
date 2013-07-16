@@ -90,7 +90,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 				intn.putExtra("loc", "" + message);
 				context.sendBroadcast(intn);
 
-			} else {
+			}else if (message.equals("ACCEPT")){
+				
+			}else if (message.equals("DECLINE")){
+				
+			}
+			else {
 				if (onlineChild(child)) {
 					if (message.contains("battery")) {
 
@@ -206,7 +211,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 		for(int i=0;i<jsons.length;i++){
 		    Child c = gson.fromJson(jsons[i], Child.class);
-		    if(c.name.compareTo(child) == 0)
+		    if(c.name.compareTo(child) == 0) //null pointer exception here
 		    	return c.activationFlag;
 		}
 		return false;

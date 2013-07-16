@@ -77,7 +77,7 @@ public class ServerMsgParent {
 					gcmServer("parent="	+ AccountMenu.prefs.getString("id", "")+"&account="+account);
 					Log.d("Account",":: "+account);
 							
-					new ServerMessageAsyncTask(false).execute("parent="	+ AccountMenu.prefs.getString("id", ""));
+					new ServerMessageAsyncTask(false).execute("parent="	+ AccountMenu.prefs.getString("id", "")+"&account="+account);
 				} else if (res.contains("id")) {
 					if (res.length() != 2) {
 						res = res.split(":")[1];
