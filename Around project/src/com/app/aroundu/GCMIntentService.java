@@ -36,6 +36,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		// solving the issue of initializing AsyncTasks with wrong loopers
+		// REF: https://code.google.com/p/android/issues/detail?id=20915
+		try {
+			Class.forName("android.os.AsyncTask");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		type = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("user", "");
 	}
 
