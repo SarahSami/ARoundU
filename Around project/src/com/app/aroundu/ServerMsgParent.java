@@ -74,9 +74,7 @@ public class ServerMsgParent {
 						childId = res;
 					}
 					String account = PreferenceManager.getDefaultSharedPreferences(context).getString("account", "");
-					gcmServer("parent="	+ AccountMenu.prefs.getString("id", "")+"&account="+account);
-					Log.d("Account",":: "+account);
-							
+					Log.d("Account",":: "+account);							
 					new ServerMessageAsyncTask(false).execute("parent="	+ AccountMenu.prefs.getString("id", "")+"&account="+account);
 				} else if (res.contains("id")) {
 					if (res.length() != 2) {

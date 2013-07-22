@@ -85,6 +85,7 @@
             android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="e.g. json@gmail.com"
+            android:text="mohamed.elsaka2007"
             android:inputType="textEmailAddress" />
 
         <View style="@style/Divider"

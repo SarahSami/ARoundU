@@ -106,8 +106,11 @@ public class GCMIntentService extends GCMBaseIntentService {
 				context.sendBroadcast(intn);
 
 			}else if (message.equals("ACCEPT")){
+				notification(context,child+" accepted your connection request.");
 				
 			}else if (message.equals("DECLINE")){
+				deleteChild(child);
+				notification(context,child+" declined your connection request.");
 				
 			}
 			else {
@@ -208,6 +211,33 @@ public class GCMIntentService extends GCMBaseIntentService {
 		
 	}
 
+	private void deleteChild(String ch){
+		String childs = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("child","");
+		if(childs.charAt(0) == '/')
+			childs = childs.substring(1);
+		
+		String []childsArray = childs.split("/");
+		String []tmp = new String[childsArray.length];
+		Gson gson = new Gson();
+
+		for (int i = 0; i < childsArray.length; i++) {
+			Child c = gson.fromJson(childsArray[i], Child.class);
+			if(!c.name.equals(ch))
+				tmp[i] = childsArray[i];
+				
+		}
+		String final_childs = "";
+		for (int i = 0; i < tmp.length; i++) {
+			if(tmp[i] != null){
+				String json = gson.toJson(tmp[i]);
+				final_childs = final_childs +"/"+json;
+			}
+				
+		}
+		PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("child",final_childs).commit();
+			
+	}
+	
 	private boolean onlineChild(String child) {
 		String chs = AccountMenu.prefs.getString("child", "");
 		Gson gson = new Gson();

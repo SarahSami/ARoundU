@@ -30,14 +30,15 @@ public class DialogActivity extends Activity{
 			String rt = prefs.getString("id", "");
 			if (!rt.contains(rid))
 				prefs.edit().putString("id", rt + "/" + rid).commit();
-			
-			ChildActivity.server.gcmServer("ACCEPT");
+			String account = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("account", "");
+			ChildActivity.server.gcmServer("ACCEPT:"+account);
 			finish();
 		}
 		});
 		d.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface arg0, int arg1) {
-			ChildActivity.server.gcmServer("DECLINE");
+			String account = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("account", "");
+			ChildActivity.server.gcmServer("DECLINE:"+account);
 			finish();
 			
 		};

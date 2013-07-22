@@ -35,6 +35,7 @@ public class RouteService extends IntentService implements LocationListener{
 	   public static Context cntx;
 	   private boolean done = false;
 	   private LocationManager locationManager;
+	   private LocationListener locListener;
 
 	   
 	   public RouteService(){
@@ -63,10 +64,31 @@ public class RouteService extends IntentService implements LocationListener{
 
 	public void findMyLocation(Context _context){
 		// trying to get working location provider
+		
+		 locListener = new LocationListener() {
+		        @Override
+		        public void onStatusChanged(String provider, int status,
+		                Bundle extras) {
+		        }
+		        @Override
+		        public void onProviderEnabled(String provider) {
+		        }
+		        @Override
+		        public void onProviderDisabled(String provider) {
+		        }
+		        @Override
+		        public void onLocationChanged(Location location) {
+		            System.out.println("mobile location is in listener="+location);
+		            lat = location.getLatitude();
+		 	       lng = location.getLongitude();
+		        }
+		        
+		 };
 		String[] providers = {LocationManager.GPS_PROVIDER, LocationManager.PASSIVE_PROVIDER, LocationManager.NETWORK_PROVIDER};
 		Location location = null;
 		for (String provider : providers) {
 			try{
+				locationManager.requestLocationUpdates( provider, 5000, 1, locListener);
 				location = locationManager.getLastKnownLocation(provider);
 			}catch (Exception e) {}
 			
@@ -203,20 +225,23 @@ public class RouteService extends IntentService implements LocationListener{
 		
 	
 
+	@Override
 	public void onLocationChanged(Location location) {
-		   lat = location.getLatitude();
-	       lng = location.getLongitude();
+		 
 		
 	}
 
+	@Override
 	public void onProviderDisabled(String provider) {
 		
 	}
 
+	@Override
 	public void onProviderEnabled(String provider) {
 		
 	}
 
+	@Override
 	public void onStatusChanged(String provider, int status, Bundle extras) {
 		
 	}

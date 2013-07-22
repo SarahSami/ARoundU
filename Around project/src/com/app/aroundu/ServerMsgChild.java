@@ -97,7 +97,7 @@ public class ServerMsgChild {
 						.delayWhileIdle(true)
 						.addData("data", msg).build();
 				Log.d("in server child","gcm send");
-				for (int i = 0; i < ids.length; i++) {
+				for (int i = 0; i < ids.length; i++) {//TODO send to parent who sent request connection
 					Log.d("id", ids[i]);
 					if(!ids[i].equals("")){
 						Result result = sender.send(message, ids[i], 1);

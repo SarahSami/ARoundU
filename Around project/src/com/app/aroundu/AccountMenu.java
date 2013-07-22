@@ -137,14 +137,14 @@ public class AccountMenu extends Activity{
 		if(prefs.contains("child")){
 			
 			String chs = prefs.getString("child", "");
-			if(chs.charAt(0) == '/')
+			if(chs.length() >= 1 && chs.charAt(0) == '/')
 				chs = chs.substring(1);
 			
 			if(chs.contains("/")){
 				jsons = chs.split("/");
 				users = new String[jsons.length];
 			}
-			else if(chs.compareTo("") != 0){
+			else if(chs.compareTo("") != 0 && chs.length() > 5){
 				users = new String[1];
 				jsons = new String[1];
 				jsons[0] = chs;
