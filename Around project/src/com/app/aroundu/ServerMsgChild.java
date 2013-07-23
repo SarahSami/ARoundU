@@ -9,6 +9,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import com.app.aroundu.ServerMsgParent.ServerMessageAsyncTask;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
@@ -27,6 +28,7 @@ public class ServerMsgChild {
 	private String parentIds = "";
 	
 	public ProgressDialog mDialog;
+	private String reply = "";
 	Toast failureToast;
 	Toast successToast;
 
@@ -53,6 +55,16 @@ public class ServerMsgChild {
 					HttpGet post = new HttpGet(postURL);
 					HttpResponse responsePOST = client.execute(post);
 					HttpEntity resEntity = responsePOST.getEntity();
+					String res = EntityUtils.toString(resEntity);
+					if (res.contains("id")) {
+						if (res.length() != 2) {
+							res = res.split(":")[1];
+							res = res.replace("\"", "");
+							res = res.substring(0, res.length() - 1);
+							gcmOneParent(res);
+						}
+					}
+					
 					if (resEntity != null) {
 						Log.i("RESPONSE", EntityUtils.toString(resEntity));
 					}
@@ -60,7 +72,25 @@ public class ServerMsgChild {
 					e.printStackTrace();
 				}
 			}
+
+			
 		}).start();
+	}
+	
+	private void gcmOneParent(String id) {
+		Sender sender = new Sender(KEYID);
+		Message message = new Message.Builder().delayWhileIdle(true)
+				.addData("data", reply).build();
+		Log.d("in server child", "gcm send one parent");
+		Result result = null ;
+		try {
+			result = sender.send(message, id, 1);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Log.d("debug", "result from send: " + result);
+		
+		
 	}
 	
 	public void sendHelpMeMessage(final String msg) {
@@ -89,19 +119,30 @@ public class ServerMsgChild {
 		protected Boolean doInBackground(String... params) {
 			final String msg = params[0];
 			try {
-				Log.d("idd>>>>>",""+parentIds);  
-				String[] ids = parentIds.split("/");
-				
-				Sender sender = new Sender(KEYID);
-				Message message = new Message.Builder()
-						.delayWhileIdle(true)
-						.addData("data", msg).build();
-				Log.d("in server child","gcm send");
-				for (int i = 0; i < ids.length; i++) {//TODO send to parent who sent request connection
-					Log.d("id", ids[i]);
-					if(!ids[i].equals("")){
-						Result result = sender.send(message, ids[i], 1);
-						Log.d("debug", "result from send: " + result);
+				if(msg.contains("/")){
+					String [] parms = msg.split("/");
+					reply = parms[0];
+					String account = parms[1];
+					postMsg("/get_id?account="+account);
+					
+				}else{
+					Log.d("idd>>>>>",""+parentIds); 
+					if(parentIds.length() >= 1 && parentIds.charAt(0) == '/')
+						parentIds = parentIds.substring(1);
+					
+					String[] ids = parentIds.split("/");
+					
+					Sender sender = new Sender(KEYID);
+					Message message = new Message.Builder()
+							.delayWhileIdle(true)
+							.addData("data", msg).build();
+					Log.d("in server child","gcm send");
+					for (int i = 0; i < ids.length; i++) {//TODO send to parent who sent request connection
+						Log.d("id", ids[i]);
+						if(!ids[i].equals("")){
+							Result result = sender.send(message, ids[i], 1);
+							Log.d("debug", "result from send: " + result);
+						}
 					}
 				}
 			} catch (Exception e) {

@@ -16,7 +16,7 @@ public class DialogActivity extends Activity{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		final String rid = getIntent().getExtras().getString("id");
-		String ac = getIntent().getExtras().getString("account");
+		final String ac = getIntent().getExtras().getString("account");
 		
 		Builder d = new AlertDialog.Builder(this);
 		d.setIcon(R.drawable.icon).setTitle("ARoundU");
@@ -31,14 +31,14 @@ public class DialogActivity extends Activity{
 			if (!rt.contains(rid))
 				prefs.edit().putString("id", rt + "/" + rid).commit();
 			String account = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("account", "");
-			ChildActivity.server.gcmServer("ACCEPT:"+account);
+			ChildActivity.server.gcmServer("ACCEPT:"+account+"/"+ac);
 			finish();
 		}
 		});
 		d.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface arg0, int arg1) {
 			String account = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("account", "");
-			ChildActivity.server.gcmServer("DECLINE:"+account);
+			ChildActivity.server.gcmServer("DECLINE:"+account+"/"+ac);
 			finish();
 			
 		};

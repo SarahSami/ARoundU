@@ -82,6 +82,7 @@ public class ServerMsgParent {
 						res = res.replace("\"", "");
 						res = res.substring(0, res.length() - 1);
 						childId = res;
+						//AccountMenu.childs.get(AccountMenu.childPosition).id = childId;
 						new ServerMessageAsyncTask(false).execute("getLocation");
 					}
 				}

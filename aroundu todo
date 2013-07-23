@@ -1,15 +1,15 @@
-static routes menu , way to home , to club ,to ✔
-choosing different route rather than shortest ✔
-save data each child in shared preference and retrieve when view ✔
-after adding route save it don't send it ✔
-remove child button ✔
+static routes menu , way to home , to club ,to  ✔
+choosing different route rather than shortest  ✔
+save data each child in shared preference and retrieve when view   ✔
+after adding route save it don't send it   ✔
+remove child button   ✔
 
 
-display route in menu static routes ✔
+display route in menu static routes  ✔
 only clicks of 2 markers when set new route , disable new request markers ✔
-notification when route sent to child ✔
+notification when route sent to child  ✔
 multi-parent system >>> delete ref parent if child deleted from parent ✔
-call child ✔
+call child  ✔
 one apk >> wizard setup ✔
 
 
@@ -18,29 +18,22 @@ remove marker drag and drop  ✔
 
 
 
-textedit for green zone hidden then press next appears
-remove reference parent or child if app deleted
-Routes general for all childs > UI
-when child call parent,select a parent to call.
 
 
-add img URI to child , if no image for contact ✔
-UI child
-gps,passive,network
-try device test and call center > err notification
+add img URI to child , if no image for contact  ✔
 
 
 
-security on child device >  notify parent if child not install it
-tutorial  ✔ > add help in menu too ✔
+tutorial  ✔ > add help in menu too  ✔
 if OK pressed and no route added in add new route > show dialog alert  ✔
-linear  layouts to all layers  ✔
-check before add multiple parent  ✔
+linear  layouts to all layers   ✔
+check before add multiple parent   ✔
 
 
 
-refactor code > indentation 
 
-
-
-    
+can not open child profile if not accepted yet > the same as  notify parent if child not install it
+remove reference parent or child if app deleted  ✔
+when child accept request,send to one parent  ✔
+add green zone in help  ✔
+if child declined > remove child in parent not working  ✔

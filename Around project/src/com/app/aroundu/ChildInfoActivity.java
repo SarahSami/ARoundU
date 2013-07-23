@@ -1,17 +1,10 @@
 package com.app.aroundu;
 
-import static com.app.aroundu.CommonUtilities.SENDER_ID;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.Vector;
 
 import com.app.aroundu.Child;
-import com.app.aroundu.GCMIntentService;
-import com.app.aroundu.ServerMsgParent;
-import com.app.aroundu.WizardActivity;
 import com.app.aroundu.Child.Route;
-import com.google.android.gcm.GCMRegistrar;
 import com.google.gson.Gson;
 
 import android.app.Activity;
@@ -22,7 +15,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +38,6 @@ import android.widget.QuickContactBadge;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.ToggleButton;
 
 
@@ -431,6 +422,7 @@ public class ChildInfoActivity extends Activity implements OnItemClickListener{
 		Gson gson = new Gson();
 		AccountMenu.childs.remove(AccountMenu.childPosition);
 		
+		AccountMenu.server.gcmServer("remove:"+AccountMenu.prefs.getString("id",""));
 		for(int i=0;i<AccountMenu.childs.size();i++){ 
 			String json = gson.toJson(AccountMenu.childs.get(i));
 			tmp = tmp+"/"+json;

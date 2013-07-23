@@ -15,17 +15,18 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-public class RouteService extends IntentService implements LocationListener{
+public class RouteService extends IntentService {
 	
 	   public static boolean work = false;
 	   public static String route = "";
 	   public static LinkedList <String> points   = new LinkedList<String>();;
 	   public static  LinkedList <String> dangerousRoutes = new LinkedList<String>() ;
-	   public static int greenZone = 600;
+	   public static int greenZone = 800;
 	   private static int difference = 0;
 	   public static double minLat = 0;
 	   public static double minLng = 0;
@@ -33,6 +34,7 @@ public class RouteService extends IntentService implements LocationListener{
 	   public  static double lat  = 0;
 	   public  static double lng  = 0; 
 	   public static Context cntx;
+	   private static String account;
 	   private boolean done = false;
 	   private LocationManager locationManager;
 	   private LocationListener locListener;
@@ -57,12 +59,12 @@ public class RouteService extends IntentService implements LocationListener{
 	   public RouteService(Context _context) {
 		super("intent service");
 		cntx = _context;
-		
+		account = PreferenceManager.getDefaultSharedPreferences(_context).getString("account", "");
 		locationManager = (LocationManager)_context.getSystemService(Context.LOCATION_SERVICE);
 		findMyLocation(_context);
 	   }
 
-	public void findMyLocation(Context _context){
+	public void findMyLocation(final Context _context){
 		// trying to get working location provider
 		
 		 locListener = new LocationListener() {
@@ -78,9 +80,8 @@ public class RouteService extends IntentService implements LocationListener{
 		        }
 		        @Override
 		        public void onLocationChanged(Location location) {
-		            System.out.println("mobile location is in listener="+location);
 		            lat = location.getLatitude();
-		 	       lng = location.getLongitude();
+		 	        lng = location.getLongitude();
 		        }
 		        
 		 };
@@ -88,7 +89,7 @@ public class RouteService extends IntentService implements LocationListener{
 		Location location = null;
 		for (String provider : providers) {
 			try{
-				locationManager.requestLocationUpdates( provider, 5000, 1, locListener);
+				locationManager.requestLocationUpdates( provider, 20000, 1, locListener);
 				location = locationManager.getLastKnownLocation(provider);
 			}catch (Exception e) {}
 			
@@ -102,7 +103,7 @@ public class RouteService extends IntentService implements LocationListener{
 			lng = location.getLongitude();    
 		}
 		else
-			ChildActivity.server.gcmServer("location is unknown:"+ChildActivity.account);
+			ChildActivity.server.gcmServer("location is unknown:"+account);
 	}
 		
 	private static  float distFrom(double lat1, double lat2, double lng1, double lng2) {
@@ -146,106 +147,12 @@ public class RouteService extends IntentService implements LocationListener{
 		}
 	    if(minA <= 50){
 			arrived = true;
-			ChildActivity.server.gcmServer("arrived at destination:"+ChildActivity.account);
+			ChildActivity.server.gcmServer("arrived at destination:"+account);
 		}
 		return false;
 	}
 	
-//	public static String getFromLocation(double lat, double lon) {
-//        String urlStr = "http://maps.google.com/maps/geo?q=" + lat + "," + lon + "&output=json&sensor=false";
-//                String response = "";
-//                List<Address> results = new ArrayList<Address>();
-//                HttpClient client = new DefaultHttpClient();
-//                try {
-//                        HttpResponse hr = client.execute(new HttpGet(urlStr));
-//                        HttpEntity entity = hr.getEntity();
-//                        BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
-//                        String buff = null;
-//                        while ((buff = br.readLine()) != null)
-//                                response += buff;
-//                } catch (IOException e) {
-//                        e.printStackTrace();
-//                }
-//
-//                JSONArray responseArray = null;
-//                try {
-//                        JSONObject jsonObject = new JSONObject(response);
-//                        responseArray = jsonObject.getJSONArray("Placemark");
-//                } catch (JSONException e) {
-//                        return "";
-//                }
-//                
-//                        Address addy = new Address(Locale.getDefault());
-//
-//                        try {
-//                                JSONObject jsl = responseArray.getJSONObject(0);
-//                                String addressLine = jsl.getString("address");
-//                                if(addressLine.contains(","))
-//                                        addressLine = addressLine.split(",")[0];
-//                                addy.setAddressLine(0, addressLine);
-//                                
-//                                jsl = jsl.getJSONObject("AddressDetails").getJSONObject("Country");
-//                                addy.setCountryName(jsl.getString("CountryName"));
-//
-//                                jsl = jsl.getJSONObject("AdministrativeArea");
-//                                if(jsl != null)
-//                                	addy.setAdminArea(jsl.getString("AdministrativeAreaName"));
-//
-//                                jsl = jsl.getJSONObject("SubAdministrativeArea");
-//                                if(jsl != null)
-//                                	addy.setSubAdminArea(jsl.getString("SubAdministrativeAreaName"));
-//
-//                                jsl = jsl.getJSONObject("Locality");
-//                                if(jsl != null)
-//                                	addy.setLocality(jsl.getString("LocalityName"));
-//
-//
-//
-//                        } catch (JSONException e) {
-//                                e.printStackTrace();
-//                        }
-//
-//                        results.add(addy);
-//                return results.get(0).getAddressLine(0);
-//        }
-	
-//	private void checkDanger(){
-//				String ad = getFromLocation(lat, lng);
-//				String sent = "";
-//				int i =0;
-//				while(i<dangerousRoutes.size()){
-//					if(ad.contains(dangerousRoutes.get(i))){
-//						sent = dangerousRoutes.get(i).replace(" ", "+");
-//						ChildActivity.server.postMsg("set_msg?msg=dangerous+"+sent );
-//						Toast.makeText(RouteService.this, "dangerous route"+sent, Toast.LENGTH_LONG).show();
-//					}
-//					i++;
-//				}
-//		}
-		
-	
 
-	@Override
-	public void onLocationChanged(Location location) {
-		 
-		
-	}
-
-	@Override
-	public void onProviderDisabled(String provider) {
-		
-	}
-
-	@Override
-	public void onProviderEnabled(String provider) {
-		
-	}
-
-	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		
-	}
-	  
 
 	public void notifyLost(){
 		String msg =  "You are out of green zone.";
@@ -294,7 +201,7 @@ public class RouteService extends IntentService implements LocationListener{
     	    			findMyLocation(cntx);
     	    			Log.d("workiiiiiinnnnggg","innnnnnn"+lat+","+lng);
     	    			if(gotLost()){
-    	    				ChildActivity.server.gcmServer("is out of green zone by "+difference+" meters:"+ChildActivity.account);
+    	    				ChildActivity.server.gcmServer("is out of green zone by "+difference+" meters:"+account);
     	    				notifyLost();
     	    				
     	    			}

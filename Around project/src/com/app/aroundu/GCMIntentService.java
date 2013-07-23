@@ -62,12 +62,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 		if (type.equals("parent")) {
 			regId = registrationId;
-			AccountMenu.prefs.edit().putString("id", registrationId).commit();
-			AccountMenu.prefs.edit().putString("account", account).commit();
+			PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("id", registrationId).commit();
+			PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("account", account).commit();
 			AccountMenu.server.postMsg("add_user?account="+ GCMIntentService.account + "&id="+ GCMIntentService.regId);
 		} else {
 			ChildActivity.account = account;
-			ChildActivity.prefs.edit().putString("account", ChildActivity.account).commit();
+			PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("account", ChildActivity.account).commit();
 			ChildActivity.server.postMsg("add_user?account=" + account + "&id="+ registrationId);
 		}
 
@@ -105,12 +105,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 				intn.putExtra("loc", "" + message);
 				context.sendBroadcast(intn);
 
-			}else if (message.equals("ACCEPT")){
-				notification(context,child+" accepted your connection request.");
+			}else if (message.contains("ACCEPT")){
+				notification(context,child,"accepted your connection request.");
 				
-			}else if (message.equals("DECLINE")){
+			}else if (message.contains("DECLINE")){
 				deleteChild(child);
-				notification(context,child+" declined your connection request.");
+				notification(context,child,"declined your connection request.");
 				
 			}
 			else {
@@ -192,14 +192,34 @@ public class GCMIntentService extends GCMBaseIntentService {
 					message = message.substring(5);
 					Log.d("name of route",name);
 					Log.d("the route is ",message);
-					notification(context,name);
+					notification(context,"New route received from parent.",name);
+					RouteService.points.clear();
 					ChildActivity.prefs.edit().putString("route",message).commit();
+				} else if(message.contains("remove")){
+					String id = message.substring(message.indexOf(':')+1);
+					Log.d("id >> ",id);
+					removeParentId(id,context);
 				}
 
 			}
 		}
 	}
 
+	private void removeParentId(String id,Context cnt){
+		String parentIds = PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).getString("id", "");
+		if(parentIds.charAt(0) == '/')
+			parentIds = parentIds.substring(1);
+		
+		String [] ids = parentIds.split("/");
+		String tmp = "";
+		for(int i=0;i<ids.length;i++){
+			if(!ids[i].equals(id))
+				tmp = tmp+"/"+ids[i];
+		}
+		
+		PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).edit().putString("id",tmp).commit();	
+	}
+	
 	private void showDialog(Context context,String ac,final String rid) {
 		Intent i = new Intent(this,DialogActivity.class);
 		i.putExtra("id", rid);
@@ -229,8 +249,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		String final_childs = "";
 		for (int i = 0; i < tmp.length; i++) {
 			if(tmp[i] != null){
-				String json = gson.toJson(tmp[i]);
-				final_childs = final_childs +"/"+json;
+				final_childs = final_childs +"/"+tmp[i];
 			}
 				
 		}
@@ -274,8 +293,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		return super.onRecoverableError(context, errorId);
 	}
 
-	public void notification(Context cntx,String name) {
-		String msg = "New route received from parent.";
+	public void notification(Context cntx,String name,String msg) {
 		String svcName = Context.NOTIFICATION_SERVICE;
 		NotificationManager notificationManager;
 		notificationManager = (NotificationManager) cntx
@@ -291,8 +309,8 @@ public class GCMIntentService extends GCMBaseIntentService {
 		PendingIntent launchIntent = PendingIntent.getActivity(
 				cntx.getApplicationContext(), 0, intnt, 0);
 		notification.contentIntent = launchIntent;
-		notification.contentView.setTextViewText(R.id.status_text, name);
-		notification.contentView.setTextViewText(R.id.name,msg);
+		notification.contentView.setTextViewText(R.id.status_text, msg);
+		notification.contentView.setTextViewText(R.id.name,name);
 		int notificationRef = 1;
 		notificationManager.notify(notificationRef, notification);
 	}

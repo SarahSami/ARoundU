@@ -86,7 +86,7 @@
                 android:layout_below="@+id/imageView3"
                 android:layout_marginTop="30dp"
                 android:layout_toRightOf="@+id/imageView4"
-                android:text="Your child should follow this route in his way." />
+                android:text="Your child should follow this route in his way.The default green zone is 800 meters." />
 
             <TextView
                 android:id="@+id/textView5"
