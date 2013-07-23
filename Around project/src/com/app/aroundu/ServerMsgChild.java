@@ -33,9 +33,11 @@ public class ServerMsgChild {
 	Toast failureToast;
 	Toast successToast;
 
-	public ServerMsgChild(Context cn) {
+	public ServerMsgChild(Context cnt) {
+		// send to all parents if alert msg only
+//		parentIds = PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).getString("id", "");
 		
-		cnt = cn;
+		this.cnt = cnt;
 		failureToast = Toast.makeText(cnt, "Unable to send!", Toast.LENGTH_LONG);
 		successToast = Toast.makeText(cnt, "sent!", Toast.LENGTH_LONG);
 		
@@ -94,16 +96,18 @@ public class ServerMsgChild {
 	}
 	
 	public void sendHelpMeMessage(final String msg) {
-		new ServerMessageAsyncTask(true).execute(msg);
+		new ServerMessageAsyncTask(true, cnt).execute(msg);
 	}
 	
 	public void gcmServer(final String msg) {
-		new ServerMessageAsyncTask(false).execute(msg);
+		new ServerMessageAsyncTask(false, cnt).execute(msg);
 	}
 	
 	class ServerMessageAsyncTask extends AsyncTask<String, Float, Boolean> {
 		boolean showDialog = false;
-		public ServerMessageAsyncTask(boolean _showDialog) {
+		public ServerMessageAsyncTask(boolean _showDialog, Context cnt) {
+			// retrieve parentsIds again as it may has been updated
+			parentIds = PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).getString("id", "");
 			this.showDialog = _showDialog;
 		}
 		
