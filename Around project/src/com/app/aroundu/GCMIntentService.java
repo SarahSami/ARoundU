@@ -262,7 +262,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 		Gson gson = new Gson();
 		String [] jsons = null;
 		
-		if(chs.charAt(0) == '/')
+		if(chs.length() > 1 && chs.charAt(0) == '/')
 			chs = chs.substring(1);
 		
 		if(chs.contains("/")){

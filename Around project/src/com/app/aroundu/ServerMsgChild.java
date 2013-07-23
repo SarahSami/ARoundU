@@ -29,13 +29,13 @@ public class ServerMsgChild {
 	
 	public ProgressDialog mDialog;
 	private String reply = "";
+	private Context cnt;
 	Toast failureToast;
 	Toast successToast;
 
-	public ServerMsgChild(Context cnt) {
-		// send to all parents if alert msg only
-		parentIds = PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).getString("id", "");
+	public ServerMsgChild(Context cn) {
 		
+		cnt = cn;
 		failureToast = Toast.makeText(cnt, "Unable to send!", Toast.LENGTH_LONG);
 		successToast = Toast.makeText(cnt, "sent!", Toast.LENGTH_LONG);
 		
@@ -126,6 +126,7 @@ public class ServerMsgChild {
 					postMsg("/get_id?account="+account);
 					
 				}else{
+					parentIds = PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).getString("id", "");
 					Log.d("idd>>>>>",""+parentIds); 
 					if(parentIds.length() >= 1 && parentIds.charAt(0) == '/')
 						parentIds = parentIds.substring(1);
