@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
@@ -76,6 +77,14 @@ public class AddActivity extends Activity {
 			Toast.makeText(this, "Add google mail", Toast.LENGTH_LONG).show();
 		else{
 			if(mail.compareTo("")!=0 && fname.compareTo("")!=0){
+				String acc = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("account","");
+				if(acc.compareTo(mail+"@gmail.com") == 0){
+					Toast.makeText(this, "Please add child's gmail not your gmail.", Toast.LENGTH_LONG).show();
+					
+				}else if(acc.compareTo(mail) == 0){
+					Toast.makeText(this, "Please add child's gmail not your gmail.", Toast.LENGTH_LONG).show();
+				}else{
+
 				if(!mail.contains("@"))
 					AccountMenu.server.postMsg("/get_id_first_register?account="+mail+"@gmail.com");
 				else
@@ -91,6 +100,7 @@ public class AddActivity extends Activity {
 				}
 				
 				saveChild(c);
+			}
 			}
 			finish();
 		}
