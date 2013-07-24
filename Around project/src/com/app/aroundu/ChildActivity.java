@@ -101,8 +101,11 @@ public class ChildActivity extends Activity {
          help.setOnClickListener(new Button.OnClickListener(){
 
  			public void onClick(View v) {
- 				server.sendHelpMeMessage("needs for help.please contact him:"+account);
- 				showDialogMsg("Notification sent to parents");
+ 				if(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).contains("id")){
+ 					server.sendHelpMeMessage("needs for help.please contact him:"+account);
+ 					showDialogMsg("Notification sent to parents");
+ 				}else
+ 					showDialogMsg("No parent added.");
  			}
          	 
           });
