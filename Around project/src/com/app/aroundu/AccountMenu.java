@@ -165,11 +165,34 @@ public class AccountMenu extends Activity{
         
 	}
 	
-	private void start(){
-		Intent myIntent = new Intent(this, ChildInfoActivity.class);
-		startActivity(myIntent);
+	private void start() {
+		try {
+			loadData();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if((childPosition+1) > childs.size()){
+			
+		}
+		else if (childs.get(childPosition).pending_request) {
+			AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+			alertbox.setIcon(R.drawable.icon);
+			alertbox.setTitle("Pending connection request");
+			alertbox.setMessage("please wait for connection acceptance");
+			alertbox.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) { 
+                    // do nothing
+                }
+             });
+
+			alertbox.show();
+
+		} else {
+			Intent myIntent = new Intent(this, ChildInfoActivity.class);
+			startActivity(myIntent);
+		}
 	}
-	
+
 	public void addChild(View v){
 		Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 		startActivityForResult(intent, PICK_CONTACT);

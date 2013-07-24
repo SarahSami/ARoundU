@@ -32,7 +32,8 @@ check before add multiple parent   ✔
 
 
 
-can not open child profile if not accepted yet > the same as  notify parent if child not install it
+can not open child profile if not accepted yet > the same as  notify parent if child not install it  ✔
+problem if child declined add  ✔
 remove reference parent or child if app deleted  ✔
 when child accept request,send to one parent  ✔
 add green zone in help  ✔

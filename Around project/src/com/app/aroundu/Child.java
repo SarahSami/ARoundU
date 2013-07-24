@@ -32,7 +32,7 @@ public class Child implements Serializable{
 	public String id;
 	public String number;
 	public boolean activationFlag = true;
-	public boolean request = true;
+	public boolean pending_request = true;
 	// current location information
 	public double lng;
 	public double lat;

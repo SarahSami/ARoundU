@@ -106,6 +106,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 				context.sendBroadcast(intn);
 
 			}else if (message.contains("ACCEPT")){
+				acceptParent(child);
 				notification(context,child,"accepted your connection request.");
 				
 			}else if (message.contains("DECLINE")){
@@ -218,6 +219,26 @@ public class GCMIntentService extends GCMBaseIntentService {
 		}
 		
 		PreferenceManager.getDefaultSharedPreferences(cnt.getApplicationContext()).edit().putString("id",tmp).commit();	
+	}
+	
+	private void acceptParent(String name) {
+		String childs = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString("child", "");
+		Gson gson = new Gson();
+
+		if (childs.length() >= 1 && childs.charAt(0) == '/')
+			childs = childs.substring(1);
+
+		String[] chs = childs.split("/");
+		String tmp = "";
+		for (int i = 0; i < chs.length; i++) {
+			Child c = gson.fromJson(chs[i], Child.class);
+			if (c.name.equals(name))
+				c.pending_request = false;
+			String json = gson.toJson(c);
+			tmp = tmp+"/"+json;
+    	}
+		PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit().putString("child",tmp).commit();
+		
 	}
 	
 	private void showDialog(Context context,String ac,final String rid) {

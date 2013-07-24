@@ -138,7 +138,6 @@ public class ChildActivity extends Activity {
 		d.setNeutralButton("Ok", new DialogInterface.OnClickListener() {
 		public void onClick(DialogInterface arg0, int arg1) {
 			
-			finish();
 		}
 		});
 		d.create();
